@@ -7,6 +7,8 @@ on:
     - cron: '0 0 * * *'
 env:
  MARCH: "znver1"
+ REPODIR: /tmp/temp_repo
+ REPONAME: "bouhaa"
 
 jobs:
   list:
@@ -76,3 +78,22 @@ jobs:
           path: |
             /home/build/${{ matrix.package }}/*.pkg.tar.zst
           if-no-files-found: error
+
+  repo:
+    needs:
+      - build
+    name: Build Repo
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+
+    steps:
+      - name: Download package artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: packages
+          path:
+            ${{ env.REPODIR }}
+      - name: Create Repo
+        shell: bash
+        run: |
+            repo-add ${{ env.REPODIR }}/${{ env.REPODIR }}.db.tar.gz ${{ env.REPODIR }}/*.pkg.*
