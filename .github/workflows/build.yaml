@@ -56,10 +56,6 @@ jobs:
           mkdir -p /home/build/pkgs
           cp -vR ${{ matrix.package }} /home/build/pkgs
           chown -vR build /home/build/${{ matrix.package }}
-      - name: Generate .SRCINFO
-        run: |
-          ls -ahl /home/build/${{ matrix.package }}
-          su build bash -c "cd /home/build/${{ matrix.package }} && makepkg --printsrcinfo > /home/build/${{ matrix.package }}.SRCINFO"
       - name: Install dependencies
         shell: bash
         run: |
