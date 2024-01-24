@@ -44,7 +44,7 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          key: ${{ matrix.package }}-${{ hashFiles(format('pkgs/{0}/PKGBUILD', matrix.package)) }}
+          key: ${{ matrix.package }}${{ hashFiles(format('{0}/PKGBUILD', matrix.package)) }}
           path: /home/build/${{ matrix.package }}
       - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
         name: Set up pacman keyring
