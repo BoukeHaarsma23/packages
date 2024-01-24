@@ -65,6 +65,10 @@ jobs:
         shell: bash
         run: |
           su build bash -c "cd /home/build/${{ matrix.package }} && makepkg"
+      - name: Remove epoch in name
+        shell: bash
+        run: |
+          find /home/build/${{ matrix.package }}/*.pkg.tar* -type f -name '*:*' -execdir bash -c 'mv "$1" "${1//:/--}"' bash {} \;
       - name: Upload package artifact
         uses: actions/upload-artifact@v3
         with:
