@@ -113,3 +113,4 @@ jobs:
         shell: bash
         run: |
             repo-add ${{ env.REPODIR }}/${{ env.REPONAME }}.db.tar.gz ${{ env.REPODIR }}/*.pkg.*
+            ls -ahl ${{ env.REPODIR }}
