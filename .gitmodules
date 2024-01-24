@@ -7,3 +7,9 @@
 [submodule "pkgs/linux"]
 	path = pkgs/linux
 	url = https://gitlab.archlinux.org/archlinux/packaging/packages/linux.git
+[submodule "pkgs/lib32-mesa"]
+	path = pkgs/lib32-mesa
+	url = https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-mesa.git
+[submodule "pkgs/gamescope"]
+	path = pkgs/gamescope
+	url = https://gitlab.archlinux.org/archlinux/packaging/packages/gamescope.git
