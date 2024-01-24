@@ -1,3 +1,6 @@
 [submodule "pkgs/zenergy-dkms-git"]
 	path = pkgs/zenergy-dkms-git
 	url = https://aur.archlinux.org/zenergy-dkms-git.git
+[submodule "pkgs/mesa"]
+	path = pkgs/mesa
+	url = https://gitlab.archlinux.org/archlinux/packaging/packages/mesa.git
