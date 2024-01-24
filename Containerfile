@@ -1,6 +1,5 @@
 FROM archlinux:latest AS stage1
 COPY repo /tmp/repo
-
 RUN repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
 RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
     # Set yesterday archive to have 'fixed version'

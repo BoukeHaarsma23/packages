@@ -134,16 +134,6 @@ jobs:
             tree -a .
             ls -ahl repo/
       - name: Build Image
-        id: build_image
-        uses: redhat-actions/buildah-build@v2
-        with:
-          image: my-new-image
-          tags: v1 ${{ github.sha }}
-          containerfiles: |
-            ./Containerfile
-          oci: false
-          extra-args: |
-            --cap-add sys_admin
-            --cap-add mknod
-            --security-opt label=disable
+        run: |
+          sudo /usr/bin/buildah bud -f Containerfile --cap-add sys_admin --cap-add mknod --security-opt label=disable --no-cache
 
