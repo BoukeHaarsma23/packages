@@ -1,5 +1,6 @@
 FROM archlinux:latest AS stage1
 COPY repo /tmp/repo
+COPY pacstrap_docker.sh .
 RUN repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
 RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
     # Set yesterday archive to have 'fixed version'
@@ -25,7 +26,7 @@ RUN ln -s sysroot/ostree /ostree
 RUN install -d /mnt/etc
 
 COPY rootfs /mnt/
-RUN pacstrap -c -G /mnt \
+RUN ./pacstrap_docker.sh /mnt \
     base \
     linux \
     amd-ucode \
