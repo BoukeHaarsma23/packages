@@ -133,6 +133,8 @@ jobs:
         id: build_image
         uses: redhat-actions/buildah-build@v2
         with:
+          image: my-new-image
+          tags: v1 ${{ github.sha }}
           containerfiles: |
             ./Containerfile
 
