@@ -1,6 +1,6 @@
 FROM archlinux:base AS stage1
 COPY repo/*.pkg.* /tmp/repo
-RUN repo-add ${{ env.REPODIR }}/${{ env.REPONAME }}.db.tar.gz ${{ env.REPODIR }}/*.pkg.*
+RUN repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
 RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
     # Set yesterday archive to have 'fixed version'
     echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist && \
@@ -30,15 +30,15 @@ RUN install -d /mnt/etc
 
 COPY rootfs/etc/mkinitcpio.conf /mnt/etc/
 RUN pacstrap -c -G -M /mnt \
-        base \
-        linux \
-        amd-ucode \
-        mesa-git \
-        gamescope \
-        efibootmgr \
-        grub \
-        ostree \
-        which
+    base \
+    linux \
+    amd-ucode \
+    mesa-git \
+    gamescope \
+    efibootmgr \
+    grub \
+    ostree \
+    which
 
 # Use the pacstrapped stuff into container image
 FROM scratch
