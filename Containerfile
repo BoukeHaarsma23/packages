@@ -1,5 +1,6 @@
 FROM archlinux:latest AS stage1
 COPY repo /tmp/repo
+
 RUN repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
 RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
     # Set yesterday archive to have 'fixed version'
@@ -21,15 +22,11 @@ RUN pacman --noconfirm -Syu arch-install-scripts grub ostree rsync
 # This allows using this container to make a deployment.
 RUN ln -s sysroot/ostree /ostree
 
-# This allows using pacstrap -N in a rootless container.
-RUN echo 'root:1000:5000' > /etc/subuid
-RUN echo 'root:1000:5000' > /etc/subgid
-
 # We need the ostree hook.
 RUN install -d /mnt/etc
 
 COPY rootfs /mnt/
-RUN pacstrap -c -G -N /mnt \
+RUN pacstrap -c -G /mnt \
     base \
     linux \
     amd-ucode \

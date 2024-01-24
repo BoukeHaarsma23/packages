@@ -142,4 +142,8 @@ jobs:
           containerfiles: |
             ./Containerfile
           oci: false
+          extra-args: |
+            --cap-add sys_admin
+            --cap-add mknod
+            --security-opt label=disable
 
