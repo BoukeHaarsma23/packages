@@ -34,7 +34,17 @@ jobs:
     container: archlinux:base-devel
 
     steps:
-      - name: Set up pacman keyring
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Cache package
+        id: cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ matrix.package }}-${{ hashFiles(format('pkgs/{0}/PKGBUILD', matrix.package)) }}
+          path: /home/build/${{ matrix.package }}
+      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
+        name: Set up pacman keyring
         run: |
           pacman-key --init
           pacman-key --populate archlinux
@@ -42,27 +52,29 @@ jobs:
           sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
           echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist;
-      - name: Setup build flags
+      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
+        name: Setup build flags
         run: |
           sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=${{ env.MARCH }}/' /etc/makepkg.conf
           sed -i 's/^#MAKEFLAGS=[^ ]*/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
           cat /etc/makepkg.conf
-      - name: Update and install git
+      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
+        name: Update and install git
         run: pacman -Syyuu --noconfirm git
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-      - name: Create build user
+      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
+        name: Create build user
         run: |
           useradd -m build
           mkdir -p /home/build/pkgs
           cp -vR ${{ matrix.package }} /home/build/pkgs
           chown -vR build /home/build/${{ matrix.package }}
-      - name: Install dependencies
+      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
+        name: Install dependencies
         shell: bash
         run: |
           pacman -S --noconfirm $(sed -n -e 's/^[[:space:]]*\(make\)\?depends\(_x86_64\)\? = \([[:alnum:][:punct:]]*\)[[:space:]]*$/\3/p' /home/build/${{ matrix.package }}/.SRCINFO)
-      - name: Build package
+      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
+        name: Build package
         id: build-package
         shell: bash
         run: |
