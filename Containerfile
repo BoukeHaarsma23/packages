@@ -1,16 +1,16 @@
-FROM archlinux:base AS stage1
-COPY repo/*.pkg.* /tmp/repo
+FROM archlinux:latest AS stage1
+COPY repo /tmp/repo
 RUN repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
 RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
     # Set yesterday archive to have 'fixed version'
     echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist && \
     # Cannot check space in chroot
     sed -i '/CheckSpace/s/^/#/g' /etc/pacman.conf && \
-    sed -i '/^\[core\]/s/^/\[bouhaa\]\nSiglevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
+    sed -i '/^\[core\]/s/^/\[bouhaa\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
 
 RUN pacman-key --init && \
     pacman-key --populate archlinux && \
-    pacman --noconfirm -Syyuu
+    pacman --noconfirm -Syyuu arch-install-scripts
 
 RUN echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     useradd build -G wheel -m
@@ -28,7 +28,7 @@ RUN echo 'root:1000:5000' > /etc/subgid
 # We need the ostree hook.
 RUN install -d /mnt/etc
 
-COPY rootfs/etc/mkinitcpio.conf /mnt/etc/
+COPY rootfs /mnt/
 RUN pacstrap -c -G -M /mnt \
     base \
     linux \
