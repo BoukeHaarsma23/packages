@@ -35,9 +35,25 @@ jobs:
       fail-fast: true
       matrix:
         package: ${{ fromJson(needs.list.outputs.pkgs) }}
-    container: archlinux:base-devel
+    container: 
+      image: archlinux:base-devel
+      volumes:
+        - /usr:/usr-host
+        - /opt:/opt-host
+      options: --privileged
 
     steps:
+      - name: Maximize build space
+        run: |
+          df -h
+          rm -rf /usr-host/share/dotnet
+          rm -rf /usr-host/share/swift
+          rm -rf /usr-host/share/java
+          rm -rf /usr-host/local/lib/android
+          rm -rf /opt-host/ghc
+          rm -rf /opt-host/hostedtoolcache
+          rm -rf /opt-host/az
+          df -h
       - name: Install git
         run: |
           pacman -Sy --noconfirm git
