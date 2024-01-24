@@ -4,3 +4,6 @@
 [submodule "pkgs/mesa"]
 	path = pkgs/mesa
 	url = https://gitlab.archlinux.org/archlinux/packaging/packages/mesa.git
+[submodule "pkgs/linux"]
+	path = pkgs/linux
+	url = https://gitlab.archlinux.org/archlinux/packaging/packages/linux.git
