@@ -9,14 +9,14 @@ RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.con
     sed -i '/^\[core\]/s/^/\[bouhaa\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
 
 RUN pacman-key --init && \
+    pacman --noconfirm -Sy archlinux-keyring && \
     pacman-key --populate archlinux && \
-    pacman --noconfirm -Syyuu arch-install-scripts
+    pacman --noconfirm -Syyuu
 
 RUN echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     useradd build -G wheel -m
 
-# This allows us to use this image for committing as well.
-RUN pacman --noconfirm -Syu grub ostree rsync
+RUN pacman --noconfirm -Syu arch-install-scripts grub ostree rsync
 
 # This allows using this container to make a deployment.
 RUN ln -s sysroot/ostree /ostree
@@ -29,7 +29,7 @@ RUN echo 'root:1000:5000' > /etc/subgid
 RUN install -d /mnt/etc
 
 COPY rootfs /mnt/
-RUN pacstrap -c -G -M /mnt \
+RUN pacstrap -c -G -N /mnt \
     base \
     linux \
     amd-ucode \
