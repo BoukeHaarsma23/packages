@@ -141,4 +141,5 @@ jobs:
           tags: v1 ${{ github.sha }}
           containerfiles: |
             ./Containerfile
+          oci: false
 
