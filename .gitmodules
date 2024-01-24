@@ -16,3 +16,6 @@
 [submodule "pkgs/mesa-git"]
 	path = pkgs/mesa-git
 	url = https://aur.archlinux.org/mesa-git.git
+[submodule "pkgs/lib32-mesa-git"]
+	path = pkgs/lib32-mesa-git
+	url = https://aur.archlinux.org/lib32-mesa-git.git
