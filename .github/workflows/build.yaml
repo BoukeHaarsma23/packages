@@ -1,0 +1,71 @@
+name: Build packages
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * * *'
+
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    outputs:
+      pkgs: ${{ steps.set-pkgs.outputs.pkgs }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: set-pkgs
+        run: |
+          echo "pkgs=$(ls -d pkgs/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+        shell: bash
+
+  build:
+    needs:
+     - list
+    name: Build package
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        package: ${{ fromJson(needs.list.outputs.pkgs) }}
+    container: archlinux:base-devel
+
+    steps:
+      - name: Set up pacman keyring
+        run: |
+          pacman-key --init
+          pacman-key --populate archlinux
+          mkdir -p /etc/gnupg && echo "auto-key-retrieve" >> /etc/gnupg/gpg.conf
+          sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
+          echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
+          echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist;
+      - name: Update and install git
+        run: pacman -Syu --noconfirm git
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Create build user
+        run: |
+          useradd -m build
+          mkdir -p /home/build/pkgs
+          cp -vR ${{ matrix.package }} /home/build/pkgs
+          chown -vR build /home/build/${{ matrix.package }}
+      - name: Generate .SRCINFO
+        run: |
+          ls -ahl /home/build/${{ matrix.package }}
+          su build bash -c "cd /home/build/${{ matrix.package }} && makepkg --printsrcinfo > /home/build/${{ matrix.package }}.SRCINFO"
+      - name: Install dependencies
+        shell: bash
+        run: |
+          pacman -S --noconfirm $(sed -n -e 's/^[[:space:]]*\(make\)\?depends\(_x86_64\)\? = \([[:alnum:][:punct:]]*\)[[:space:]]*$/\3/p' /home/build/${{ matrix.package }}/.SRCINFO)
+      - name: Build package
+        id: build-package
+        shell: bash
+        run: |
+          su build bash -c "cd /home/build/${{ matrix.package }} && CFLAGS='${{ env.CFLAGS }}' MAKEFLAGS=-j$(nproc) makepkg"
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: packages
+          path: |
+            /home/build/${{ matrix.package }}/*.pkg.tar.zst
+          if-no-files-found: error
