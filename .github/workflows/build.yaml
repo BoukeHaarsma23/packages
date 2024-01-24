@@ -56,28 +56,28 @@ jobs:
           sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
           echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist;
-      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Setup build flags
         run: |
           sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=${{ env.MARCH }}/' /etc/makepkg.conf
           sed -i 's/^#MAKEFLAGS=[^ ]*/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
           cat /etc/makepkg.conf
-      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Update to archive date
         run: pacman -Syyuu --noconfirm
-      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Create build user
         run: |
           useradd -m build
           mkdir -p /home/build/pkgs
           cp -vR ${{ matrix.package }} /home/build/pkgs
           chown -vR build /home/build/${{ matrix.package }}
-      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Install dependencies
         shell: bash
         run: |
           pacman -S --noconfirm $(sed -n -e 's/^[[:space:]]*\(make\)\?depends\(_x86_64\)\? = \([[:alnum:][:punct:]]*\)[[:space:]]*$/\3/p' /home/build/${{ matrix.package }}/.SRCINFO)
-      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || contains(matrix.package, '-git')
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Build package
         id: build-package
         shell: bash
