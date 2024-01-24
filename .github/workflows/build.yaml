@@ -131,6 +131,8 @@ jobs:
         shell: bash
         run: |
             find repo/*.pkg.* -type f -name '*--*' -execdir bash -c 'mv "$1" "${1//--/:}"' bash {} \;
+            tree -a .
+            ls -ahl repo/
       - name: Build Image
         id: build_image
         uses: redhat-actions/buildah-build@v2
