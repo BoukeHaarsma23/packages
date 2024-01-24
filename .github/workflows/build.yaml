@@ -7,8 +7,6 @@ on:
     - cron: '0 0 * * *'
 env:
  MARCH: "znver1"
- REPODIR: /tmp/temp_repo
- REPONAME: "bouhaa"
 
 permissions:
   contents: write
@@ -26,7 +24,7 @@ jobs:
           echo "pkgs=$(ls -d pkgs/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
         shell: bash
 
-  build:
+  build-packages:
     needs:
      - list
     name: Build package
@@ -115,37 +113,26 @@ jobs:
             /home/build/${{ matrix.package }}/*.pkg.*
           if-no-files-found: error
 
-  repo:
+  build:
     needs:
-      - build
+      - build-packages
     name: Build Repo
     runs-on: ubuntu-latest
-    container: archlinux:base-devel
-
     steps:
       - name: Download package artifact
         uses: actions/download-artifact@v3
         with:
           name: packages
           path:
-            ${{ env.REPODIR }}
-      - name: Create Repo
-        id: repo
+            repo/
+      - name: Add epoch
         shell: bash
         run: |
-            find ${{ env.REPODIR }}/*.pkg.* -type f -name '*--*' -execdir bash -c 'mv "$1" "${1//--/:}"' bash {} \;
-            repo-add ${{ env.REPODIR }}/${{ env.REPONAME }}.db.tar.gz ${{ env.REPODIR }}/*.pkg.*
-            echo "date=$(date -d 'yesterday' +%Y/%m/%d)" >> "$GITHUB_OUTPUT"
-      - name: Create release
-        id: create_release
-        uses: softprops/action-gh-release@v1
+            find repo/*.pkg.* -type f -name '*--*' -execdir bash -c 'mv "$1" "${1//--/:}"' bash {} \;
+      - name: Build Image
+        id: build_image
+        uses: redhat-actions/buildah-build@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.repo.outputs.date }}
-          target_commitish: ${{ github.sha }}
-          draft: false
-          prerelease: true
-          fail_on_unmatched_files: true
-          files: |
-            ${{ env.REPODIR }}/*
+          containerfiles: |
+            ./Containerfile
 
