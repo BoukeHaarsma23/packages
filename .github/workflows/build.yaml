@@ -5,6 +5,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
+env:
+ MARCH: "znver1"
 
 jobs:
   list:
@@ -38,6 +40,10 @@ jobs:
           sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
           echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist;
+      - name: Setup build flags
+        run: |
+          sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=${{ env.MARCH }}/' /etc/makepkg.conf
+          cat /etc/makepkg.conf
       - name: Update and install git
         run: pacman -Syu --noconfirm git
       - uses: actions/checkout@v3
@@ -61,7 +67,7 @@ jobs:
         id: build-package
         shell: bash
         run: |
-          su build bash -c "cd /home/build/${{ matrix.package }} && CFLAGS='${{ env.CFLAGS }}' MAKEFLAGS=-j$(nproc) makepkg"
+          su build bash -c "cd /home/build/${{ matrix.package }} && makepkg"
       - name: Upload package artifact
         uses: actions/upload-artifact@v3
         with:
