@@ -51,7 +51,7 @@ jobs:
         with:
           key: ${{ matrix.package }}${{ hashFiles(format('{0}/PKGBUILD', matrix.package)) }}
           path: /home/build/${{ matrix.package }}
-      - if: ${{ steps.cache.outputs.cache-hit != 'true'}} || 
+      - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
         name: Set up pacman keyring
         run: |
           pacman-key --init
