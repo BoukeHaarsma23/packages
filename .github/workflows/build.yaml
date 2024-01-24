@@ -43,6 +43,7 @@ jobs:
       - name: Setup build flags
         run: |
           sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=${{ env.MARCH }}/' /etc/makepkg.conf
+          sed -i 's/^#MAKEFLAGS=[^ ]*/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
           cat /etc/makepkg.conf
       - name: Update and install git
         run: pacman -Syyuu --noconfirm git
