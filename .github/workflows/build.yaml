@@ -45,7 +45,7 @@ jobs:
           sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=${{ env.MARCH }}/' /etc/makepkg.conf
           cat /etc/makepkg.conf
       - name: Update and install git
-        run: pacman -Syu --noconfirm git
+        run: pacman -Syyuu --noconfirm git
       - uses: actions/checkout@v3
         with:
           submodules: recursive
