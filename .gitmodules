@@ -1,0 +1,3 @@
+[submodule "pkgs/zenergy-dkms-git"]
+	path = pkgs/zenergy-dkms-git
+	url = https://aur.archlinux.org/zenergy-dkms-git.git
