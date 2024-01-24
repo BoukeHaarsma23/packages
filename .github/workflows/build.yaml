@@ -112,4 +112,4 @@ jobs:
       - name: Create Repo
         shell: bash
         run: |
-            repo-add ${{ env.REPODIR }}/${{ env.REPODIR }}.db.tar.gz ${{ env.REPODIR }}/*.pkg.*
+            repo-add ${{ env.REPODIR }}/${{ env.REPONAME }}.db.tar.gz ${{ env.REPODIR }}/*.pkg.*
