@@ -1,7 +1,7 @@
 FROM archlinux:latest AS stage1
 COPY repo /tmp/repo
 COPY pacstrap_docker.sh .
-COPY roots/etc/pacman.conf /etc/pacman.conf
+COPY rootfs/etc/pacman.conf /etc/pacman.conf
 
 RUN repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
 RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
