@@ -1,6 +1,5 @@
-FROM archlinux:latest AS stage1
+FROM archlinux:base-devel
 COPY repo /tmp/repo
-COPY pacstrap_docker.sh .
 COPY rootfs/etc/pacman.conf /etc/pacman.conf
 
 RUN repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
@@ -14,40 +13,25 @@ RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.con
 RUN pacman-key --init && \
     pacman --noconfirm -Sy archlinux-keyring && \
     pacman-key --populate archlinux && \
-    pacman --noconfirm -Syyuu
+    pacman --noconfirm -Syyuu && \
+    pacman --noconfirm -S \
+    arch-install-scripts \
+    btrfs-progs \
+    git \
+    sudo \
+    pikaur
 
 RUN echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     useradd build -G wheel -m
 
-RUN pacman --noconfirm -Syu arch-install-scripts grub ostree rsync
+# Add a fake systemd-run script to workaround pikaur requirement.
+RUN echo -e "#!/bin/bash\nif [[ \"$1\" == \"--version\" ]]; then echo 'fake 244 version'; fi\nmkdir -p /var/cache/pikaur\n" >> /usr/bin/systemd-run && \
+    chmod +x /usr/bin/systemd-run
 
-# This allows using this container to make a deployment.
-RUN ln -s sysroot/ostree /ostree
+USER build
+ENV BUILD_USER "build"
+ENV GNUPGHOME  "/etc/pacman.d/gnupg"
+# Built image will be moved here. This should be a host mount to get the output.
+ENV OUTPUT_DIR /output
 
-# We need the ostree hook.
-RUN install -d /mnt/etc
-
-COPY rootfs /mnt/
-RUN ./pacstrap_docker.sh /mnt \
-    base \
-    linux \
-    amd-ucode \
-    mesa-git \
-    gamescope \
-    efibootmgr \
-    grub \
-    ostree \
-    which
-
-# Use the pacstrapped stuff into container image
-FROM scratch
-COPY --from=stage1 /mnt /
-
-# The rootfs can't be modified and systemd can't create them implicitly.
-# That's why we have to create them as part of the rootfs.
-RUN mkdir /efi
-
-# Normal post installation steps.
-RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
-RUN locale-gen
-RUN systemctl enable systemd-timesyncd.service
+WORKDIR /workdir
