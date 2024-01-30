@@ -18,7 +18,7 @@ jobs:
     outputs:
       pkgs: ${{ steps.set-pkgs.outputs.pkgs }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: set-pkgs
         run: |
           echo "pkgs=$(ls -d pkgs/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
@@ -44,7 +44,7 @@ jobs:
       - name: Install git
         run: |
           pacman -Sy --noconfirm git
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - if: ${{ contains(matrix.package,'linux') }}
@@ -120,7 +120,7 @@ jobs:
     name: Build Repo
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Download package artifact
         uses: actions/download-artifact@v3
         with:
