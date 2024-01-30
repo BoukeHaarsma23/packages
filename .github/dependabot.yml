@@ -3,4 +3,4 @@ updates:
   - package-ecosystem: gitsubmodule
     schedule:
       interval: "daily"
-    directory: "/pkgs"
+    directory: "/"
