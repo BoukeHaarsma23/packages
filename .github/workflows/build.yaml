@@ -2,6 +2,8 @@ name: Build packages
 on:
   push:
     branches: [ main ]
+  pull_request:
+      types: [ opened ]
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
@@ -117,6 +119,7 @@ jobs:
   build:
     needs:
       - build-packages
+    if: github.event_name != 'pull_request'
     name: Build Repo
     runs-on: ubuntu-latest
     steps:
