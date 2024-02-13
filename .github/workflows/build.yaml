@@ -32,10 +32,10 @@ jobs:
     name: Build package
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         package: ${{ fromJson(needs.list.outputs.pkgs) }}
-    container: 
+    container:
       image: archlinux:base-devel
       volumes:
         - /usr:/usr-host
