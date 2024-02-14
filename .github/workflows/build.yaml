@@ -32,7 +32,7 @@ jobs:
           submodules: recursive
       - name: install deps
         run: |
-          pacman --noconfirm -Sy pacman-contrib jq
+          pacman --noconfirm -Sy pacman-contrib jq findutils
       - name: apply mesa-patches
         run: |
           useradd -m build
@@ -113,10 +113,10 @@ jobs:
       - if: ${{ contains(matrix.package, 'mesa-chimeraos') }}
         name: Run patcher
         run: |
-          pacman --noconfirm -S pacman-contrib
+          pacman --noconfirm -S pacman-contrib findutils
           chown -vR build *
           su build bash -c "./patches/mesa/patcher.sh pkgs mesa pkgs"
-          cat pkg/mesa-chimeraos/PKGBUILD
+          cat pkgs/mesa-chimeraos/PKGBUILD
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Copy package
         run: |
