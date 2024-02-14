@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       pkgs: ${{ steps.set-pkgs.outputs.pkgs }}
+      pkgsdeps: ${{ steps.set-pkgs.outputs.pkgsdeps }}
     steps:
       - uses: actions/checkout@v4
       - id: set-pkgs
