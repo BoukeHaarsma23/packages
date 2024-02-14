@@ -115,11 +115,12 @@ jobs:
           pacman --noconfirm -S pacman-contrib
           chown -vR build *
           su build bash -c "./patches/mesa/patcher.sh pkgs mesa pkgs"
+          cat pkg/mesa-chimeraos/PKGBUILD
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Copy package
         run: |
-          cp -vR ${{ matrix.package }} /home/build/pkgs
-          chown -vR build /home/build/pkgs
+          cp -R ${{ matrix.package }} /home/build/pkgs
+          chown -R build /home/build/pkgs
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Build package
         id: build-package
