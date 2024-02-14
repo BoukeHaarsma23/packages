@@ -94,7 +94,7 @@ jobs:
           useradd -m build
           mkdir -p /home/build/pkgs
           cp -vR ${{ matrix.package }} /home/build/pkgs
-          chown -vR build /home/build/${{ matrix.package }}
+          chown -vR build /home/build/pkgs
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Install dependencies
         shell: bash
@@ -181,8 +181,8 @@ jobs:
         name: Create build user
         run: |
           useradd -m build
-          mkdir -p /home/build/pkgs
-          cp -vR ${{ matrix.package }} /home/build/pkgs
+          mkdir -p /home/build/${{ matrix.package }}
+          cp -vR ${{ matrix.package }} /home/build/pkgs-stage-2
           chown -vR build /home/build/${{ matrix.package }}
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Install dependencies
