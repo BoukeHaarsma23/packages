@@ -121,16 +121,11 @@ jobs:
           cp -vR ${{ matrix.package }} /home/build/pkgs
           chown -vR build /home/build/pkgs
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
-        name: Install dependencies
-        shell: bash
-        run: |
-          pacman -S --noconfirm $(sed -n -e 's/^[[:space:]]*\(make\)\?depends\(_x86_64\)\? = \([[:alnum:][:punct:]]*\)[[:space:]]*$/\3/p' /home/build/${{ matrix.package }}/.SRCINFO)
-      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Build package
         id: build-package
         shell: bash
         run: |
-          su build bash -c "cd /home/build/${{ matrix.package }} && makepkg"
+          su build bash -c "cd /home/build/${{ matrix.package }} && makepkg -s"
       - name: Remove epoch in name
         shell: bash
         run: |
