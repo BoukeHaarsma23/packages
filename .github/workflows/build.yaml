@@ -20,8 +20,24 @@ jobs:
     outputs:
       pkgs: ${{ steps.set-pkgs.outputs.pkgs }}
       pkgsdeps: ${{ steps.set-pkgs.outputs.pkgsdeps }}
+    container:
+      image: archlinux:base-devel
     steps:
+      - name: Install git
+        run: |
+          pacman -Sy --noconfirm git
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: install deps
+        run: |
+          pacman --noconfirm -Sy pacman-contrib jq
+      - name: apply mesa-patches
+        run: |
+          useradd -m build
+          chown -vR build *
+          su build bash -c "./patches/mesa/patcher.sh pkgs mesa pkgs"
+          su build bash -c "./patches/mesa/patcher.sh pkgs lib32-mesa pkgs-stage-2"
       - id: set-pkgs
         run: |
           echo "pkgs=$(ls -d pkgs/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
@@ -93,6 +109,15 @@ jobs:
         run: |
           useradd -m build
           mkdir -p /home/build/pkgs
+      - if: ${{ contains(matrix.package, 'mesa-chimeraos') }}
+        name: Run patcher
+        run: |
+          pacman --noconfirm -S pacman-contrib
+          chown -vR build *
+          su build bash -c "./patches/mesa/patcher.sh pkgs mesa pkgs"
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: Copy package
+        run: |
           cp -vR ${{ matrix.package }} /home/build/pkgs
           chown -vR build /home/build/pkgs
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
@@ -139,6 +164,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+      - if: ${{ contains(matrix.package, 'lib32-mesa-chimeraos') }}
+        name: Run patcher
+        run: |
+          pacman --noconfirm -S pacman-contrib
+          ./patches/mesa/patcher.sh pkgs lib32-mesa pkgs-stage-2
       - if: ${{ !contains(matrix.package, '-git') }}
         name: Cache package
         id: cache
