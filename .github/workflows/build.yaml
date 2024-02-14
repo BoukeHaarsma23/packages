@@ -24,9 +24,10 @@ jobs:
       - id: set-pkgs
         run: |
           echo "pkgs=$(ls -d pkgs/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+          echo "pkgsdeps=$(ls -d pkgs-stage-2/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
         shell: bash
 
-  build-packages:
+  build-packages-stage1:
     needs:
      - list
     name: Build package
@@ -116,9 +117,99 @@ jobs:
             /home/build/${{ matrix.package }}/*.pkg.*
           if-no-files-found: error
 
+  build-packages-stage2:
+    needs:
+      - list
+      - build-packages-stage1
+    name: Build package
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.list.outputs.pkgsdeps) }}
+    container:
+      image: archlinux:base-devel
+      options: --privileged
+
+    steps:
+      - name: Install git
+        run: |
+          pacman -Sy --noconfirm git
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - if: ${{ !contains(matrix.package, '-git') }}
+        name: Cache package
+        id: cache
+        uses: actions/cache@v4
+        with:
+          key: ${{ matrix.package }}${{ hashFiles(format('{0}/PKGBUILD', matrix.package)) }}
+          path: /home/build/${{ matrix.package }}
+      - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
+        name: Set up pacman keyring
+        run: |
+          pacman-key --init
+          pacman-key --populate archlinux
+          mkdir -p /etc/gnupg && echo "auto-key-retrieve" >> /etc/gnupg/gpg.conf
+          sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
+          echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
+          echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+      - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
+        name: Download package artifact
+        uses: actions/download-artifact@v4
+        with:
+          pattern: packages*
+          merge-multiple: true
+          path:
+            /tmp/repo/
+      - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
+        name: Setup bouhaa repo
+        run: |
+          repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
+          sed -i '/^\[core\]/s/^/\[bouhaa\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: Setup build flags
+        run: |
+          sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=${{ env.MARCH }}/' /etc/makepkg.conf
+          sed -i 's/^#MAKEFLAGS=[^ ]*/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
+          cat /etc/makepkg.conf
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: Update to archive date
+        run: pacman -Syyuu --noconfirm
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: Create build user
+        run: |
+          useradd -m build
+          mkdir -p /home/build/pkgs
+          cp -vR ${{ matrix.package }} /home/build/pkgs
+          chown -vR build /home/build/${{ matrix.package }}
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: Install dependencies
+        shell: bash
+        run: |
+          pacman -S --noconfirm $(sed -n -e 's/^[[:space:]]*\(make\)\?depends\(_x86_64\)\? = \([[:alnum:][:punct:]]*\)[[:space:]]*$/\3/p' /home/build/${{ matrix.package }}/.SRCINFO)
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: Build package
+        id: build-package
+        shell: bash
+        run: |
+          su build bash -c "cd /home/build/${{ matrix.package }} && makepkg"
+      - name: Remove epoch in name
+        shell: bash
+        run: |
+          find /home/build/${{ matrix.package }}/*.pkg.* -type f -name '*:*' -execdir bash -c 'mv "$1" "${1//:/--}"' bash {} \;
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages-${{ hashFiles(format('{0}/PKGBUILD', matrix.package)) }}
+          path: |
+            /home/build/${{ matrix.package }}/*.pkg.*
+          if-no-files-found: error
+
   build:
     needs:
-      - build-packages
+      - build-packages-stage1
+      - build-packages-stage2
     if: github.event_name != 'pull_request'
     name: Build Repo
     runs-on: ubuntu-latest
