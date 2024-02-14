@@ -16,6 +16,7 @@ permissions:
 
 jobs:
   list:
+    name: Prepare
     runs-on: ubuntu-latest
     outputs:
       pkgs: ${{ steps.set-pkgs.outputs.pkgs }}
@@ -47,7 +48,7 @@ jobs:
   build-packages-stage1:
     needs:
      - list
-    name: Build package
+    name: Stage 1
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -143,7 +144,7 @@ jobs:
     needs:
       - list
       - build-packages-stage1
-    name: Build package
+    name: Stage 2
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
