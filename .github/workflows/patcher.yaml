@@ -38,7 +38,11 @@ jobs:
                 chmod 777 $dir
                 pushd $dir
                 chown build PKGBUILD
-                cat PKGBUILD
                 su build bash -c "updpkgsums"
                 popd
             done
+        - name: commit changes
+          run: |
+            git add .
+            git commit -m "update -chimeraos packages"
+            git push

@@ -13,13 +13,11 @@ sed -i '/.*echo \"\$pkgver.*/s/arch/chos/' $3/$2-chimeraos/PKGBUILD
 
 # Add patches to sources
 # https://stackoverflow.com/a/52057667
-#sed '/^source.*/{:a;/)/!{N;ba};s/)/bla)/;}' PKGBUILD
-#sed -i '/^source.*/{:a;/)/!{N;ba};s/)/bla)/;}' PKGBUILD
 for patch in $SCRIPT_DIR/*.patch
 do
     patchname=${patch##*/}
     sed -i '/^source.*/{:a;/)/!{N;ba};s/)/'${patchname}'\n)\n/;}' $3/$2-chimeraos/PKGBUILD
 done
 pushd "$3/$2-chimeraos"
-# plumb patches in folder and update checksums
+# plumb patches in folder
 cp -v $SCRIPT_DIR/*.patch .
