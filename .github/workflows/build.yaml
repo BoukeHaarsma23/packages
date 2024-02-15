@@ -44,9 +44,9 @@ jobs:
       options: --privileged
 
     steps:
-      - name: Install git
+      - name: Install git and sudo
         run: |
-          pacman -Sy --noconfirm git
+          pacman -Sy --noconfirm git sudo
       - uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -70,7 +70,7 @@ jobs:
           key: ${{ matrix.package }}${{ hashFiles(format('{0}/PKGBUILD', matrix.package)) }}
           path: /home/build/${{ matrix.package }}
       - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
-        name: Set up pacman keyring
+        name: Set up docker image
         run: |
           pacman-key --init
           pacman-key --populate archlinux
@@ -78,6 +78,7 @@ jobs:
           sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
           echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist;
+          echo "build ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/build
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Setup build flags
         run: |
@@ -98,16 +99,11 @@ jobs:
           cp -R ${{ matrix.package }} /home/build/pkgs
           chown -R build /home/build/pkgs
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
-        name: Install dependencies
-        shell: bash
-        run: |
-          pacman -S --noconfirm $(sed -n -e 's/^[[:space:]]*\(make\)\?depends\(_x86_64\)\? = \([[:alnum:][:punct:]]*\)[[:space:]]*$/\3/p' /home/build/${{ matrix.package }}/.SRCINFO)
-      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Build package
         id: build-package
         shell: bash
         run: |
-          su build bash -c "cd /home/build/${{ matrix.package }} && makepkg"
+          su build bash -c "cd /home/build/${{ matrix.package }} && makepkg -s --noconfirm"
       - name: Remove epoch in name
         shell: bash
         run: |
@@ -137,7 +133,7 @@ jobs:
     steps:
       - name: Install git
         run: |
-          pacman -Sy --noconfirm git
+          pacman -Sy --noconfirm git sudo
       - uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -149,7 +145,7 @@ jobs:
           key: ${{ matrix.package }}${{ hashFiles(format('{0}/PKGBUILD', matrix.package)) }}
           path: /home/build/${{ matrix.package }}
       - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
-        name: Set up pacman keyring
+        name: Set up docker container
         run: |
           pacman-key --init
           pacman-key --populate archlinux
@@ -157,6 +153,7 @@ jobs:
           sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
           echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+          echo "build ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/build
       - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
         name: Download package artifact
         uses: actions/download-artifact@v4
@@ -187,16 +184,11 @@ jobs:
           cp -vR ${{ matrix.package }} /home/build/pkgs-stage-2
           chown -vR build /home/build/${{ matrix.package }}
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
-        name: Install dependencies
-        shell: bash
-        run: |
-          pacman -S --noconfirm $(sed -n -e 's/^[[:space:]]*\(make\)\?depends\(_x86_64\)\? = \([[:alnum:][:punct:]]*\)[[:space:]]*$/\3/p' /home/build/${{ matrix.package }}/.SRCINFO)
-      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Build package
         id: build-package
         shell: bash
         run: |
-          su build bash -c "cd /home/build/${{ matrix.package }} && makepkg"
+          su build bash -c "cd /home/build/${{ matrix.package }} && makepkg -s --noconfirm"
       - name: Remove epoch in name
         shell: bash
         run: |
