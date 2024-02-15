@@ -43,6 +43,7 @@ jobs:
             done
         - name: commit changes
           run: |
+            git config --global --add safe.directory $(pwd)
             git add .
             git commit -m "update -chimeraos packages"
             git push
