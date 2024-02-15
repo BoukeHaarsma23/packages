@@ -6,7 +6,8 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 location=pkgs-stage-2
 rm -rf $location/$2-chimeraos
-cp -rv $1/$2 $location/$2-chimeraos
+mkdir $location/$2-chimeraos
+cp -rv $1/$2/* $location/$2-chimeraos
 # Suffix package with -chimeraos
 sed -i '/^pkgbase=/s/$/-chimeraos/' $location/$2-chimeraos/PKGBUILD
 # In the prepare function replace
