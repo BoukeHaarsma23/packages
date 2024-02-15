@@ -5,16 +5,16 @@
 
 pkgbase=mesa-chimeraos
 pkgname=(
-  'vulkan-mesa-layers'
-  'opencl-clover-mesa'
-  'opencl-rusticl-mesa'
-  'vulkan-intel'
-  'vulkan-radeon'
-  'vulkan-swrast'
-  'vulkan-virtio'
-  'libva-mesa-driver'
-  'mesa-vdpau'
-  'mesa'
+  'vulkan-mesa-layers-chimeraos'
+  'opencl-clover-mesa-chimeraos'
+  'opencl-rusticl-mesa-chimeraos'
+  'vulkan-intel-chimeraos'
+  'vulkan-radeon-chimeraos'
+  'vulkan-swrast-chimeraos'
+  'vulkan-virtio-chimeraos'
+  'libva-mesa-driver-chimeraos'
+  'mesa-chimeraos-vdpau-chimeraos'
+  'mesa-chimeraos'
 )
 pkgver=24.0.1
 pkgrel=1
@@ -177,7 +177,7 @@ _install() {
 
 _libdir=usr/lib
 
-package_vulkan-mesa-layers() {
+package_vulkan-mesa-layers-chimeraos() {
   pkgdesc="Mesa's Vulkan layers"
   depends=(
     'libdrm'
@@ -197,7 +197,7 @@ package_vulkan-mesa-layers() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_opencl-clover-mesa() {
+package_opencl-clover-mesa-chimeraos() {
   pkgdesc="OpenCL support with clover for mesa drivers"
   depends=(
     'clang'
@@ -221,7 +221,7 @@ package_opencl-clover-mesa() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_opencl-rusticl-mesa() {
+package_opencl-rusticl-mesa-chimeraos() {
   pkgdesc="OpenCL support with rusticl for mesa drivers"
   depends=(
     'clang'
@@ -245,7 +245,7 @@ package_opencl-rusticl-mesa() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_vulkan-intel() {
+package_vulkan-intel-chimeraos() {
   pkgdesc="Intel's Vulkan mesa driver"
   depends=(
     'libdrm'
@@ -256,7 +256,7 @@ package_vulkan-intel() {
     'xcb-util-keysyms'
     'zstd'
   )
-  optdepends=('vulkan-mesa-layers: additional vulkan layers')
+  optdepends=('vulkan-mesa-layers-chimeraos: additional vulkan layers')
   provides=('vulkan-driver')
 
   _install fakeinstall/usr/share/vulkan/icd.d/intel_*.json
@@ -265,7 +265,7 @@ package_vulkan-intel() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_vulkan-radeon() {
+package_vulkan-radeon-chimeraos() {
   pkgdesc="Radeon's Vulkan mesa driver"
   depends=(
     'libdrm'
@@ -278,7 +278,7 @@ package_vulkan-radeon() {
     'xcb-util-keysyms'
     'zstd'
   )
-  optdepends=('vulkan-mesa-layers: additional vulkan layers')
+  optdepends=('vulkan-mesa-layers-chimeraos: additional vulkan layers')
   provides=('vulkan-driver')
 
   _install fakeinstall/usr/share/drirc.d/00-radv-defaults.conf
@@ -288,7 +288,7 @@ package_vulkan-radeon() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_vulkan-swrast() {
+package_vulkan-swrast-chimeraos() {
   pkgdesc="Vulkan software rasteriser driver"
   depends=(
     'libdrm'
@@ -301,7 +301,7 @@ package_vulkan-swrast() {
     'xcb-util-keysyms'
     'zstd'
   )
-  optdepends=('vulkan-mesa-layers: additional vulkan layers')
+  optdepends=('vulkan-mesa-layers-chimeraos: additional vulkan layers')
   conflicts=('vulkan-mesa')
   replaces=('vulkan-mesa')
   provides=('vulkan-driver')
@@ -312,7 +312,7 @@ package_vulkan-swrast() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_vulkan-virtio() {
+package_vulkan-virtio-chimeraos() {
   pkgdesc="Venus Vulkan mesa driver for Virtual Machines"
   depends=(
     'libdrm'
@@ -323,7 +323,7 @@ package_vulkan-virtio() {
     'xcb-util-keysyms'
     'zstd'
   )
-  optdepends=('vulkan-mesa-layers: additional vulkan layers')
+  optdepends=('vulkan-mesa-layers-chimeraos: additional vulkan layers')
   provides=('vulkan-driver')
 
   _install fakeinstall/usr/share/vulkan/icd.d/virtio_icd*.json
@@ -332,7 +332,7 @@ package_vulkan-virtio() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_libva-mesa-driver() {
+package_libva-mesa-driver-chimeraos() {
   pkgdesc="VA-API drivers"
   depends=(
     'expat'
@@ -350,7 +350,7 @@ package_libva-mesa-driver() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_mesa-vdpau() {
+package_mesa-chimeraos-vdpau-chimeraos() {
   pkgdesc="VDPAU drivers"
   depends=(
     'expat'
@@ -368,7 +368,7 @@ package_mesa-vdpau() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_mesa() {
+package_mesa-chimeraos() {
   depends=(
     'libdrm'
     'libelf'
@@ -389,11 +389,11 @@ package_mesa() {
     'opengl-man-pages: for the OpenGL API man pages'
   )
   provides=(
-    'mesa-libgl'
+    'mesa-chimeraos-libgl'
     'opengl-driver'
   )
-  conflicts=('mesa-libgl')
-  replaces=('mesa-libgl')
+  conflicts=('mesa-chimeraos-libgl')
+  replaces=('mesa-chimeraos-libgl')
 
   _install fakeinstall/usr/share/drirc.d/00-mesa-defaults.conf
   _install fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json

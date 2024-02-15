@@ -5,16 +5,16 @@
 
 pkgbase=lib32-mesa-chimeraos
 pkgname=(
-  'lib32-vulkan-mesa-layers'
-  'lib32-opencl-clover-mesa'
-  'lib32-opencl-rusticl-mesa'
-  'lib32-vulkan-intel'
-  'lib32-vulkan-radeon'
-  'lib32-vulkan-swrast'
-  'lib32-vulkan-virtio'
-  'lib32-libva-mesa-driver'
-  'lib32-mesa-vdpau'
-  'lib32-mesa'
+  'lib32-vulkan-mesa-layers-chimeraos'
+  'lib32-opencl-clover-mesa-chimeraos'
+  'lib32-opencl-rusticl-mesa-chimeraos'
+  'lib32-vulkan-intel-chimeraos'
+  'lib32-vulkan-radeon-chimeraos'
+  'lib32-vulkan-swrast-chimeraos'
+  'lib32-vulkan-virtio-chimeraos'
+  'lib32-libva-mesa-driver-chimeraos'
+  'lib32-mesa-chimeraos-vdpau-chimeraos'
+  'lib32-mesa-chimeraos'
 )
 pkgver=24.0.1
 pkgrel=1
@@ -171,14 +171,14 @@ _install() {
 
 _libdir=usr/lib32
 
-package_lib32-vulkan-mesa-layers() {
+package_lib32-vulkan-mesa-layers-chimeraos() {
   pkgdesc="Mesa's Vulkan layers (32-bit)"
   depends=(
     'lib32-libdrm'
     'lib32-libxcb'
     'lib32-wayland'
 
-    'vulkan-mesa-layers'
+    'vulkan-mesa-layers-chimeraos'
   )
   conflicts=('lib32-vulkan-mesa-layer')
   replaces=('lib32-vulkan-mesa-layer')
@@ -191,7 +191,7 @@ package_lib32-vulkan-mesa-layers() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_lib32-opencl-clover-mesa() {
+package_lib32-opencl-clover-mesa-chimeraos() {
   pkgdesc="OpenCL support with clover for mesa drivers (32-bit)"
   depends=(
     'lib32-clang'
@@ -202,7 +202,7 @@ package_lib32-opencl-clover-mesa() {
     'lib32-zstd'
 
     'libclc'
-    'opencl-clover-mesa'
+    'opencl-clover-mesa-chimeraos'
   )
   optdepends=('opencl-headers: headers necessary for OpenCL development')
   provides=('lib32-opencl-driver')
@@ -216,7 +216,7 @@ package_lib32-opencl-clover-mesa() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_lib32-opencl-rusticl-mesa() {
+package_lib32-opencl-rusticl-mesa-chimeraos() {
   pkgdesc="OpenCL support with rusticl for mesa drivers (32-bit)"
   depends=(
     'lib32-clang'
@@ -228,7 +228,7 @@ package_lib32-opencl-rusticl-mesa() {
     'lib32-zstd'
 
     'libclc'
-    'opencl-rusticl-mesa'
+    'opencl-rusticl-mesa-chimeraos'
   )
   optdepends=('opencl-headers: headers necessary for OpenCL development')
   provides=('lib32-opencl-driver')
@@ -241,7 +241,7 @@ package_lib32-opencl-rusticl-mesa() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_lib32-vulkan-intel() {
+package_lib32-vulkan-intel-chimeraos() {
   pkgdesc="Intel's Vulkan mesa driver (32-bit)"
   depends=(
     'lib32-libdrm'
@@ -252,7 +252,7 @@ package_lib32-vulkan-intel() {
     'lib32-xcb-util-keysyms'
     'lib32-zstd'
   )
-  optdepends=('lib32-vulkan-mesa-layers: additional vulkan layers')
+  optdepends=('lib32-vulkan-mesa-layers-chimeraos: additional vulkan layers')
   provides=('lib32-vulkan-driver')
 
   _install fakeinstall/usr/share/vulkan/icd.d/intel_*.json
@@ -261,7 +261,7 @@ package_lib32-vulkan-intel() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_lib32-vulkan-radeon() {
+package_lib32-vulkan-radeon-chimeraos() {
   pkgdesc="Radeon's Vulkan mesa driver (32-bit)"
   depends=(
     'lib32-libdrm'
@@ -274,9 +274,9 @@ package_lib32-vulkan-radeon() {
     'lib32-xcb-util-keysyms'
     'lib32-zstd'
 
-    'vulkan-radeon'
+    'vulkan-radeon-chimeraos'
   )
-  optdepends=('lib32-vulkan-mesa-layers: additional vulkan layers')
+  optdepends=('lib32-vulkan-mesa-layers-chimeraos: additional vulkan layers')
   provides=('lib32-vulkan-driver')
 
   rm -v fakeinstall/usr/share/drirc.d/00-radv-defaults.conf
@@ -286,7 +286,7 @@ package_lib32-vulkan-radeon() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_lib32-vulkan-swrast() {
+package_lib32-vulkan-swrast-chimeraos() {
   pkgdesc="Vulkan software rasteriser driver (32-bit)"
   depends=(
     'lib32-libdrm'
@@ -299,7 +299,7 @@ package_lib32-vulkan-swrast() {
     'lib32-xcb-util-keysyms'
     'lib32-zstd'
   )
-  optdepends=('lib32-vulkan-mesa-layers: additional vulkan layers')
+  optdepends=('lib32-vulkan-mesa-layers-chimeraos: additional vulkan layers')
   conflicts=('lib32-vulkan-mesa')
   replaces=('lib32-vulkan-mesa')
   provides=('lib32-vulkan-driver')
@@ -310,7 +310,7 @@ package_lib32-vulkan-swrast() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_lib32-vulkan-virtio() {
+package_lib32-vulkan-virtio-chimeraos() {
   pkgdesc="Venus Vulkan mesa driver for Virtual Machines (32-bit)"
   depends=(
     'lib32-libdrm'
@@ -321,7 +321,7 @@ package_lib32-vulkan-virtio() {
     'lib32-xcb-util-keysyms'
     'lib32-zstd'
   )
-  optdepends=('lib32-vulkan-mesa-layers: additional vulkan layers')
+  optdepends=('lib32-vulkan-mesa-layers-chimeraos: additional vulkan layers')
   provides=('lib32-vulkan-driver')
 
   _install fakeinstall/usr/share/vulkan/icd.d/virtio_icd*.json
@@ -330,7 +330,7 @@ package_lib32-vulkan-virtio() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_lib32-libva-mesa-driver() {
+package_lib32-libva-mesa-driver-chimeraos() {
   pkgdesc="VA-API drivers (32-bit)"
   depends=(
     'lib32-expat'
@@ -348,7 +348,7 @@ package_lib32-libva-mesa-driver() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_lib32-mesa-vdpau() {
+package_lib32-mesa-chimeraos-vdpau-chimeraos() {
   pkgdesc="VDPAU drivers (32-bit)"
   depends=(
     'lib32-expat'
@@ -366,7 +366,7 @@ package_lib32-mesa-vdpau() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_lib32-mesa() {
+package_lib32-mesa-chimeraos() {
   depends=(
     'lib32-libdrm'
     'lib32-libelf'
@@ -381,17 +381,17 @@ package_lib32-mesa() {
     'lib32-wayland'
     'lib32-zstd'
 
-    'mesa'
+    'mesa-chimeraos'
   )
   optdepends=(
     'opengl-man-pages: for the OpenGL API man pages'
   )
   provides=(
-    'lib32-mesa-libgl'
+    'lib32-mesa-chimeraos-libgl'
     'lib32-opengl-driver'
   )
-  conflicts=('lib32-mesa-libgl')
-  replaces=('lib32-mesa-libgl')
+  conflicts=('lib32-mesa-chimeraos-libgl')
+  replaces=('lib32-mesa-chimeraos-libgl')
 
   rm -v fakeinstall/usr/share/drirc.d/00-mesa-defaults.conf
   rm -v fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
