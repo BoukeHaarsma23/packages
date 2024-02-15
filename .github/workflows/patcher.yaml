@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  patch:
+  patcher:
     name: Patcher
     runs-on: ubuntu-latest
     container:
@@ -12,7 +12,23 @@ jobs:
     steps:
         - name: Install git
           run: |
-            pacman -Sy --noconfirm git
+            pacman -Sy --noconfirm git tree
         - uses: actions/checkout@v4
           with:
             submodules: recursive
+        - name: Initialize mandatory git config
+          run: |
+            git config user.name "GitHub Actions"
+            git config user.email noreply@github.com
+        - name: run patcher
+          shell: bash
+          run: |
+            for dir in patches/*/
+            do
+                dir=${dir%*/}
+                package=${dir##*/}
+                pushd $dir
+                    ./patcher.sh pkgs $package pkgs
+                popd
+            done
+            tree .
