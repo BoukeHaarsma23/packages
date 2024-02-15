@@ -1,5 +1,8 @@
 name: Patcher
 on:
+  push:
+    paths:
+        - 'patches/**'
   workflow_dispatch:
 
 permissions:
