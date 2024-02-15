@@ -2,8 +2,6 @@ name: Build packages
 on:
   push:
     branches: [ main ]
-  pull_request:
-      types: [ opened ]
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'

@@ -12,7 +12,7 @@ jobs:
     steps:
         - name: Install git
           run: |
-            pacman -Sy --noconfirm git tree
+            pacman -Sy --noconfirm git pacman-contrib
         - uses: actions/checkout@v4
           with:
             submodules: recursive
@@ -29,4 +29,16 @@ jobs:
                 package=${dir##*/}
                 ./$dir/patcher.sh pkgs $package pkgs
             done
-            tree .
+        - name: update checksums
+          run: |
+            useradd -m build
+            for dir in pkgs*/*-chimeraos/
+            do
+                dir=${dir%*/}
+                chmod 777 $dir
+                pushd $dir
+                chown build PKGBUILD
+                cat PKGBUILD
+                su build bash -c "updpkgsums"
+                popd
+            done

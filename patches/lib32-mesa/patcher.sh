@@ -21,4 +21,3 @@ sed -i '/^source.*/{:a;/)/!{N;ba};s/)/'${patches}'\n)\n/;}' $3/$2-chimeraos/PKGB
 pushd "$3/$2-chimeraos"
 # plumb patches in folder and update checksums
 cp -v $SCRIPT_DIR/*.patch .
-updpkgsums
