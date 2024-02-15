@@ -19,7 +19,8 @@ sed -i '/.*echo \"\$pkgver.*/s/arch/chos/' $location/$2-chimeraos/PKGBUILD
 for patch in $SCRIPT_DIR/*.patch
 do
     patchname=${patch##*/}
-    sed -i '/^source.*/{:a;/)/!{N;ba};s/)/'${patchname}'\n)\n/;}' $location/$2-chimeraos/PKGBUILD
+    sed -i '/^prepare.*/{:a;/\}/!{N;ba};s//patch -Np1 -i ..\/'${patchname}'\n\}/;}' $location/$2-chimeraos/PKGBUILD
+    sed -i '/^source.*/{:a;/)/!{N;ba};s/)/'${patchname}'\n)/;}' $location/$2-chimeraos/PKGBUILD
 done
 pushd "$location/$2-chimeraos"
 # plumb patches in folder
