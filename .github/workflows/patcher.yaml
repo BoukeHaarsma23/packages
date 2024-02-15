@@ -44,6 +44,7 @@ jobs:
                 chmod 777 $dir
                 pushd $dir
                 chown build PKGBUILD
+                cat PKGBUILD
                 su build bash -c "updpkgsums"
                 popd
             done
