@@ -71,11 +71,6 @@ source=(
 0004-wsi-Use-vendored-gamescope-commit-queue-v1-protocol.patch
 0005-STEAMOS-Dynamic-swapchain-override-for-gamescope-lim.patch
 )
-
-
-
-
-
 sha256sums=('f387192b08c471c545590dd12230a2a343244804b5fe866fec6aea02eab57613'
             'SKIP'
             '7052ba73bb07ea78873a2431ee4e828f4e72bda7d176d07f770fa48373dec537'
@@ -106,6 +101,11 @@ prepare() {
   # its GPU cache; otherwise it can cause pages to render incorrectly.
   # https://bugs.launchpad.net/ubuntu/+source/chromium-browser/+bug/2020604
   echo "$pkgver-chos$epoch.$pkgrel" >VERSION
+patch -Np1 -i ../0001-vulkan-wsi-wayland-refactor-wayland-dispatch-code.patch
+patch -Np1 -i ../0002-vulkan-wsi-wayland-Use-commit_timing-commit_queue-pr.patch
+patch -Np1 -i ../0003-hack-rip-out-commit-timing-v1.patch
+patch -Np1 -i ../0004-wsi-Use-vendored-gamescope-commit-queue-v1-protocol.patch
+patch -Np1 -i ../0005-STEAMOS-Dynamic-swapchain-override-for-gamescope-lim.patch
 }
 
 build() {
