@@ -23,3 +23,5 @@ done
 pushd "$location/$2-chimeraos"
 # plumb patches in folder
 cp -v $SCRIPT_DIR/*.patch .
+# remove git folder
+rm -rf .git/

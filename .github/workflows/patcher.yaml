@@ -2,6 +2,9 @@ name: Patcher
 on:
   workflow_dispatch:
 
+permissions:
+    contents: write
+
 jobs:
   patcher:
     name: Patcher
