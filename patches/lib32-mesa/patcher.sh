@@ -27,6 +27,7 @@ source $location/$2-chimeraos/PKGBUILD
 for name in "${pkgname[@]}"
 do
     # dependencies always start with '
+    sed -i 's/'\'${name}'/'\'${name}'-chimeraos/' $location/$2-chimeraos/PKGBUILD
     #lib32, also do normal for deps
     sed -i 's/'\'${name#"lib32-"}'/'\'${name#"lib32-"}'-chimeraos/' $location/$2-chimeraos/PKGBUILD
     # update package functions
