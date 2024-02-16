@@ -2,7 +2,7 @@
 echo 'root:1000:5000' > /etc/subuid
 echo 'root:1000:5000' > /etc/subgid
 
-cp /workdir/repo /tmp/repo
+cp -r /workdir/repo /tmp/repo
 
 repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
 echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
