@@ -1,37 +1,68 @@
-FROM archlinux:base-devel
-COPY repo /tmp/repo
-COPY rootfs/etc/pacman.conf /etc/pacman.conf
+FROM docker.io/alpine:3.19 AS builder-base
 
-RUN repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
-RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
-    # Set yesterday archive to have 'fixed version'
-    echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist && \
-    # Cannot check space in chroot
-    sed -i '/CheckSpace/s/^/#/g' /etc/pacman.conf && \
-    sed -i '/^\[core\]/s/^/\[bouhaa\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
+RUN apk add --no-cache coreutils sequoia-sq wget
 
-RUN pacman-key --init && \
-    pacman --noconfirm -Sy archlinux-keyring && \
-    pacman-key --populate archlinux && \
-    pacman --noconfirm -Syyuu && \
-    pacman --noconfirm -S \
-    arch-install-scripts \
-    btrfs-progs \
-    git \
-    sudo \
-    pikaur
+WORKDIR /tmp
 
-RUN echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    useradd build -G wheel -m
+RUN wget http://mirror.cmt.de/archlinux/iso/latest/b2sums.txt
+RUN wget http://mirror.cmt.de/archlinux/iso/latest/sha256sums.txt
+RUN wget http://mirror.cmt.de/archlinux/iso/latest/archlinux-bootstrap-x86_64.tar.gz
+RUN wget http://mirror.cmt.de/archlinux/iso/latest/archlinux-bootstrap-x86_64.tar.gz.sig
+RUN sq --force wkd get pierre@archlinux.org -o release-key.pgp
 
-# Add a fake systemd-run script to workaround pikaur requirement.
-RUN echo -e "#!/bin/bash\nif [[ \"$1\" == \"--version\" ]]; then echo 'fake 244 version'; fi\nmkdir -p /var/cache/pikaur\n" >> /usr/bin/systemd-run && \
-    chmod +x /usr/bin/systemd-run
+# This might be pedantic given that the signature matches, but why not.
+RUN b2sum --ignore-missing -c b2sums.txt
+RUN sha256sum --ignore-missing -c sha256sums.txt
+RUN sq verify --signer-file release-key.pgp --detached archlinux-bootstrap-x86_64.tar.gz.sig archlinux-bootstrap-x86_64.tar.gz
 
-USER build
-ENV BUILD_USER "build"
-ENV GNUPGHOME  "/etc/pacman.d/gnupg"
-# Built image will be moved here. This should be a host mount to get the output.
-ENV OUTPUT_DIR /output
+WORKDIR /
 
-WORKDIR /workdir
+RUN mkdir /rootfs
+RUN tar xzf /tmp/archlinux-bootstrap-x86_64.tar.gz --numeric-owner -C /rootfs
+
+FROM scratch AS builder
+COPY --from=builder-base /rootfs/root.x86_64 /
+
+# The bootstrap image is very minimal and we still have to setup pacman.
+RUN pacman-key --init
+RUN pacman-key --populate
+RUN echo 'Server = https://geo.mirror.pkgbuild.com/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+
+# This allows us to use this image for committing as well.
+RUN pacman --noconfirm -Syu grub ostree rsync
+
+# This allows using this container to make a deployment.
+RUN ln -s sysroot/ostree /ostree
+
+# This allows using pacstrap -N in a rootless container.
+RUN echo 'root:1000:5000' > /etc/subuid
+RUN echo 'root:1000:5000' > /etc/subgid
+
+# We need the ostree hook.
+RUN install -d /mnt/etc
+COPY rootfs/etc/mkinitcpio.conf /mnt/etc/
+
+# Install packages.
+RUN pacstrap -c -G -M /mnt \
+	base \
+	linux \
+	intel-ucode \
+	amd-ucode \
+	efibootmgr \
+	grub \
+	ostree \
+	which
+
+# Turn the pacstrapped rootfs into a container image.
+FROM scratch
+COPY --from=builder /mnt /
+
+# The rootfs can't be modified and systemd can't create them implicitly.
+# That's why we have to create them as part of the rootfs.
+RUN mkdir /efi
+
+# Normal post installation steps.
+RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+RUN sed -i 's/^#\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen
+RUN locale-gen
+RUN systemctl enable systemd-timesyncd.service
