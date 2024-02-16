@@ -20,9 +20,23 @@ cp /workdir/rootfs/etc/mkinitcpio.conf /mnt/etc/
 
 # Install packages.
 pacstrap -c -G mnt \
+	amd-ucode \
 	base \
-	linux \
+	cpupower \
+	distrobox \
 	efibootmgr \
+	flatpak \
+	gamescope-git \
 	grub \
+	linux \
 	ostree \
-	which
+	mesa-chimeraos \
+	mesa-chimeraos-vdpau-chimeraos \
+	nano \
+	podman \
+	pikaur \
+	steam \
+	which \
+	vulkan-mesa-layers-chimeraos \
+	vulkan-radeon-chimeraos \
+	zenergy-dkms-git
