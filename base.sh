@@ -36,6 +36,9 @@ pacstrap -c -G mnt \
 	grub \
 	linux \
 	ostree \
+	lib32-mesa-chimeraos \
+	lib32-vulkan-mesa-layers-chimeraos \
+	lib32-vulkan-radeon-chimeraos \
 	mesa-chimeraos \
 	mesa-chimeraos-vdpau-chimeraos \
 	nano \
