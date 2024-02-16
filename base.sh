@@ -8,8 +8,7 @@ repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
 echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
 # Set yesterday archive to have 'fixed version'
 echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist && \
-# Cannot check space in chroot
-sed -i '/CheckSpace/s/^/#/g' /etc/pacman.conf && \
+# Add custom repo
 sed -i '/^\[core\]/s/^/\[bouhaa\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
 
 # This allows us to use this image for committing as well.
@@ -20,7 +19,7 @@ install -d /mnt/etc
 cp /workdir/rootfs/etc/mkinitcpio.conf /mnt/etc/
 
 # Install packages.
-pacstrap -c -G -M mnt \
+pacstrap -c -G mnt \
 	base \
 	linux \
 	efibootmgr \
