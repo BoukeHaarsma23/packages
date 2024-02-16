@@ -7,6 +7,8 @@ on:
     - cron: '0 0 * * *'
 env:
  MARCH: "znver1"
+ IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+ IMAGE_NAME: bouhaa-OS
 
 permissions:
   contents: write
@@ -221,10 +223,59 @@ jobs:
         shell: bash
         run: |
             find repo/*.pkg.* -type f -name '*--*' -execdir bash -c 'mv "$1" "${1//--/:}"' bash {} \;
-      - name: create empty arch system
+      - name: Create empty arch system
         run: |
           docker run --privileged -v $(pwd)/mnt:/mnt -v $(pwd):/workdir archlinux:latest /bin/bash /workdir/base.sh
-      - name: build
-        run:
-          sudo /usr/bin/buildah bud -f Containerfile --cap-add sys_admin --cap-add mknod --security-opt label=disable --no-cache
 
+      # Build metadata
+      - name: Image Metadata
+        uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: |
+            ${{ env.IMAGE_NAME }}
+          labels: |
+            org.opencontainers.image.title=${{ env.IMAGE_NAME }}
+
+      # Build image using Buildah action
+      - name: Build Image
+        id: build_image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          extra-args: |
+            --cap-add sys_admin
+            --cap-add mknod
+            --security-opt label=disable
+          containerfiles: |
+            ./Containerfile
+          image: ${{ env.IMAGE_NAME }}
+          build-args: |
+            IMAGE_NAME=${{ env.IMAGE_NAME }}
+            IMAGE_VENDOR=${{ github.repository_owner }}
+          labels: ${{ steps.meta.outputs.labels }}
+          oci: false
+
+      # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
+      # https://github.com/macbre/push-to-ghcr/issues/12
+      - name: Lowercase Registry
+        id: registry_case
+        uses: ASzc/change-string-case-action@v6
+        with:
+          string: ${{ env.IMAGE_REGISTRY }}
+
+      # Push the image to GHCR (Image Registry)
+      - name: Push To GHCR
+        uses: redhat-actions/push-to-registry@v2
+        id: push
+        if: github.event_name != 'pull_request'
+        env:
+          REGISTRY_USER: ${{ github.actor }}
+          REGISTRY_PASSWORD: ${{ github.token }}
+        with:
+          image: ${{ steps.build_image.outputs.image }}
+          tags: ${{ steps.build_image.outputs.tags }}
+          registry: ${{ steps.registry_case.outputs.lowercase }}
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+          extra-args: |
+            --disable-content-trust
