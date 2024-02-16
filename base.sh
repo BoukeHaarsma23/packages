@@ -10,6 +10,8 @@ echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf &&
 echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist && \
 # Add custom repo
 sed -i '/^\[core\]/s/^/\[bouhaa\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
+# enable multilib
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 
 # This allows us to use this image for committing as well.
 pacman --noconfirm -Syyuu arch-install-scripts grub ostree rsync
