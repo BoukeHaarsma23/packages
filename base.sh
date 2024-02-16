@@ -36,16 +36,16 @@ pacstrap -c -G mnt \
 	grub \
 	linux \
 	ostree \
-	lib32-mesa-chimeraos \
-	lib32-vulkan-mesa-layers-chimeraos \
-	lib32-vulkan-radeon-chimeraos \
-	mesa-chimeraos \
-	mesa-chimeraos-vdpau-chimeraos \
+	lib32-mesa \
+	lib32-vulkan-mesa-layers \
+	lib32-vulkan-radeon \
+	mesa \
+	mesa-vdpau \
 	nano \
 	podman \
 	pikaur \
 	steam \
 	which \
-	vulkan-mesa-layers-chimeraos \
-	vulkan-radeon-chimeraos \
+	vulkan-mesa-layers \
+	vulkan-radeon \
 	zenergy-dkms-git
