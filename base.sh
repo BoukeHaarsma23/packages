@@ -17,8 +17,6 @@ cp /workdir/rootfs/etc/mkinitcpio.conf /mnt/etc/
 pacstrap -c -G -M mnt \
 	base \
 	linux \
-	intel-ucode \
-	amd-ucode \
 	efibootmgr \
 	grub \
 	ostree \

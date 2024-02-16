@@ -10,9 +10,6 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           docker run --privileged -v $(pwd)/mnt:/mnt -v $(pwd):/workdir archlinux:latest /bin/bash /workdir/base.sh
-      - uses: docker/build-push-action@v5
-        with:
-          file: Containerfile
-          context: .
-          no-cache: true
+      - run:
+          sudo /usr/bin/buildah bud -f Containerfile --cap-add sys_admin --cap-add mknod --security-opt label=disable --no-cache
       
