@@ -11,7 +11,11 @@ echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d
 # Add custom repo
 sed -i '/^\[core\]/s/^/\[bouhaa\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
 # enable multilib
-sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
+
+# Init keys
+pacman-key --init
+pacman-key --populate archlinux
 
 # This allows us to use this image for committing as well.
 pacman --noconfirm -Syyuu arch-install-scripts grub ostree rsync
