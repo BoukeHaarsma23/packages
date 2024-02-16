@@ -206,7 +206,7 @@ jobs:
       - build-packages-stage1
       - build-packages-stage2
     if: github.event_name != 'pull_request'
-    name: Build Repo
+    name: Build System
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -221,9 +221,10 @@ jobs:
         shell: bash
         run: |
             find repo/*.pkg.* -type f -name '*--*' -execdir bash -c 'mv "$1" "${1//--/:}"' bash {} \;
-            tree -a .
-            ls -ahl repo/
-      - name: Build Image
+      - name: create empty arch system
         run: |
+          docker run --privileged -v $(pwd)/mnt:/mnt -v $(pwd):/workdir archlinux:latest /bin/bash /workdir/base.sh
+      - name: build
+        run:
           sudo /usr/bin/buildah bud -f Containerfile --cap-add sys_admin --cap-add mknod --security-opt label=disable --no-cache
 

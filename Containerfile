@@ -1,37 +1,12 @@
-FROM archlinux:base-devel
-COPY repo /tmp/repo
-COPY rootfs/etc/pacman.conf /etc/pacman.conf
+FROM scratch
+COPY mnt /
 
-RUN repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
-RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
-    # Set yesterday archive to have 'fixed version'
-    echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist && \
-    # Cannot check space in chroot
-    sed -i '/CheckSpace/s/^/#/g' /etc/pacman.conf && \
-    sed -i '/^\[core\]/s/^/\[bouhaa\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
+# The rootfs can't be modified and systemd can't create them implicitly.
+# That's why we have to create them as part of the rootfs.
+RUN mkdir /efi
 
-RUN pacman-key --init && \
-    pacman --noconfirm -Sy archlinux-keyring && \
-    pacman-key --populate archlinux && \
-    pacman --noconfirm -Syyuu && \
-    pacman --noconfirm -S \
-    arch-install-scripts \
-    btrfs-progs \
-    git \
-    sudo \
-    pikaur
-
-RUN echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    useradd build -G wheel -m
-
-# Add a fake systemd-run script to workaround pikaur requirement.
-RUN echo -e "#!/bin/bash\nif [[ \"$1\" == \"--version\" ]]; then echo 'fake 244 version'; fi\nmkdir -p /var/cache/pikaur\n" >> /usr/bin/systemd-run && \
-    chmod +x /usr/bin/systemd-run
-
-USER build
-ENV BUILD_USER "build"
-ENV GNUPGHOME  "/etc/pacman.d/gnupg"
-# Built image will be moved here. This should be a host mount to get the output.
-ENV OUTPUT_DIR /output
-
-WORKDIR /workdir
+# Normal post installation steps.
+RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+RUN sed -i 's/^#\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen
+RUN locale-gen
+RUN systemctl enable systemd-timesyncd.service
