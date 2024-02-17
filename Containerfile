@@ -9,3 +9,7 @@ RUN mkdir /efi
 RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 RUN locale-gen
 RUN systemctl enable systemd-timesyncd.service
+
+RUN mkdir /sysroot
+RUN ostree admin init-fs /
+RUN ostree admin os-init bouhaa-os
