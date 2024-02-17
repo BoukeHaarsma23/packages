@@ -239,7 +239,7 @@ jobs:
       - name: Build Image
         id: build_image
         run:
-          sudo buildah bud -f ./Containerfile --label org.opencontainers.image.title=${{ env.IMAGE_NAME }} -t ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }} .
+          sudo buildah bud -f ./Containerfile --label ostree.bootable="true" --label org.opencontainers.image.title=${{ env.IMAGE_NAME }} -t ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }} .
       # Push the image to GHCR (Image Registry)
       - name: Push To GHCR
         id: push
