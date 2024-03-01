@@ -10,9 +10,6 @@
 [submodule "pkgs/lib32-mesa"]
 	path = pkgs/lib32-mesa
 	url = https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-mesa.git
-[submodule "pkgs/gamescope"]
-	path = pkgs-stage-2/gamescope
-	url = https://gitlab.archlinux.org/archlinux/packaging/packages/gamescope.git
 [submodule "pkgs/pikaur"]
 	path = pkgs/pikaur
 	url = https://aur.archlinux.org/pikaur.git
