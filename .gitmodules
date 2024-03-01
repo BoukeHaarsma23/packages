@@ -25,3 +25,6 @@
 [submodule "pkgs/linux-amd-color"]
 	path = pkgs/linux-amd-color
 	url = https://aur.archlinux.org/linux-amd-color.git
+[submodule "pkgs/gamescope-amd-color"]
+	path = pkgs/gamescope-amd-color
+	url = https://aur.archlinux.org/gamescope-amd-color.git
