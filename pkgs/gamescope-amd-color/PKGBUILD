@@ -37,6 +37,7 @@ depends=(
   libxres
   libxtst
   libxxf86vm
+  openvr
   sdl2
   vulkan-icd-loader
   wayland
