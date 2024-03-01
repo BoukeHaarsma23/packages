@@ -19,9 +19,6 @@
 [submodule "pkgs/gamescope-git"]
 	path = pkgs/gamescope-git
 	url = https://aur.archlinux.org/gamescope-git.git
-[submodule "pkgs/openvr"]
-	path = pkgs/openvr
-	url = https://gitlab.archlinux.org/archlinux/packaging/packages/openvr.git
 [submodule "pkgs/linux-amd-color"]
 	path = pkgs/linux-amd-color
 	url = https://aur.archlinux.org/linux-amd-color.git
