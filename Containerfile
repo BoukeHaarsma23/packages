@@ -21,6 +21,9 @@ RUN mkdir /efi
 RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 RUN locale-gen
 RUN systemctl enable systemd-timesyncd.service
-RUN ostree admin init-fs /
-RUN ostree admin os-init bouhaa-os
-RUN ostree commit
+RUN mkdir /sysroot && \
+    ln -s sysroot/ostree /ostree && \
+    mv /etc /usr && \
+    rm -r /boot && \
+    mkdir /boot
+RUN ostree commit --repo /sysroot/ostree/repo --tree=dir=/mnt --branch=master
