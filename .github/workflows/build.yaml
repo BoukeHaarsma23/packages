@@ -90,7 +90,9 @@ jobs:
           cat /etc/makepkg.conf
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Update to archive date
-        run: pacman -Syyuu --noconfirm
+        run: |
+          pacman -Syyuu --noconfirm
+          pacman -U --noconfirm https://archive.archlinux.org/packages/m/meson/meson-1.3.2-1-any.pkg.tar.zst
       - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         name: Create build user
         run: |
