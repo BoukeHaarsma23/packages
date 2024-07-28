@@ -16,6 +16,3 @@
 [submodule "pkgs/gamescope-git"]
 	path = pkgs/gamescope-git
 	url = https://aur.archlinux.org/gamescope-git.git
-[submodule "pkgs/linux-amd-color"]
-	path = pkgs/linux-amd-color
-	url = https://aur.archlinux.org/linux-amd-color.git
