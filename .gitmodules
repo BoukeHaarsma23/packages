@@ -13,6 +13,3 @@
 [submodule "pkgs/pikaur"]
 	path = pkgs/pikaur
 	url = https://aur.archlinux.org/pikaur.git
-[submodule "pkgs/gamescope-git"]
-	path = pkgs/gamescope-git
-	url = https://aur.archlinux.org/gamescope-git.git
