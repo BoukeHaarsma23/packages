@@ -29,17 +29,17 @@ pacstrap -c -G mnt \
 	efibootmgr \
 	flatpak \
 	gamescope \
-	linux \
-	lib32-mesa \
-	lib32-vulkan-mesa-layers \
-	lib32-vulkan-radeon \
-	mesa \
-	mesa-vdpau \
+	chos/linux \
+	chos/lib32-mesa \
+	chos/lib32-vulkan-mesa-layers \
+	chos/lib32-vulkan-radeon \
+	chos/mesa \
+	chos/mesa-vdpau \
 	nano \
 	podman \
 	pikaur \
 	steam \
 	which \
-	vulkan-mesa-layers \
-	vulkan-radeon \
+	chos/vulkan-mesa-layers \
+	chos/vulkan-radeon \
 	zenergy-dkms-git
