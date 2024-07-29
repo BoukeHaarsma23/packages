@@ -29,6 +29,8 @@ pacstrap -c -G mnt \
 	efibootmgr \
 	flatpak \
 	gamescope \
+	gamescope-session \
+	gamescope-session-steam \
 	chos/linux \
 	chos/lib32-mesa \
 	chos/lib32-vulkan-mesa-layers \
@@ -36,8 +38,6 @@ pacstrap -c -G mnt \
 	chos/mesa \
 	chos/mesa-vdpau \
 	nano \
-	podman \
-	pikaur \
 	steam \
 	which \
 	chos/vulkan-mesa-layers \

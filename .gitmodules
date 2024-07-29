@@ -10,6 +10,57 @@
 [submodule "pkgs/lib32-mesa"]
 	path = pkgs/lib32-mesa
 	url = https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-mesa.git
-[submodule "pkgs/pikaur"]
-	path = pkgs/pikaur
-	url = https://aur.archlinux.org/pikaur.git
+[submodule "pkgs/gamescope-session-git"]
+	path = pkgs/gamescope-session-git
+	url = https://aur.archlinux.org/gamescope-session-git.git
+[submodule "pkgs/gamescope-session-steam-git"]
+	path = pkgs/gamescope-session-steam-git
+	url = https://aur.archlinux.org/gamescope-session-steam-git.git
+[submodule "pkgs/cosmic-applets-git"]
+	path = pkgs/cosmic-applets-git
+	url = https://aur.archlinux.org/cosmic-applets-git.git
+[submodule "pkgs/cosmic-applibrary-git"]
+	path = pkgs/cosmic-applibrary-git
+	url = https://aur.archlinux.org/cosmic-applibrary-git.git
+[submodule "pkgs/cosmic-bg-git"]
+	path = pkgs/cosmic-bg-git
+	url = https://aur.archlinux.org/cosmic-bg-git.git
+[submodule "pkgs/cosmic-comp-git"]
+	path = pkgs/cosmic-comp-git
+	url = https://aur.archlinux.org/cosmic-comp-git.git
+[submodule "pkgs/cosmic-greeter-git"]
+	path = pkgs/cosmic-greeter-git
+	url = https://aur.archlinux.org/cosmic-greeter-git.git
+[submodule "pkgs/cosmic-icons-git"]
+	path = pkgs/cosmic-icons-git
+	url = https://aur.archlinux.org/cosmic-icons-git.git
+[submodule "pkgs/cosmic-launcher-git"]
+	path = pkgs/cosmic-launcher-git
+	url = https://aur.archlinux.org/cosmic-launcher-git.git
+[submodule "pkgs/cosmic-notifications-git"]
+	path = pkgs/cosmic-notifications-git
+	url = https://aur.archlinux.org/cosmic-notifications-git.git
+[submodule "pkgs/cosmic-osd-git"]
+	path = pkgs/cosmic-osd-git
+	url = https://aur.archlinux.org/cosmic-osd-git.git
+[submodule "pkgs/cosmic-panel-git"]
+	path = pkgs/cosmic-panel-git
+	url = https://aur.archlinux.org/cosmic-panel-git.git
+[submodule "pkgs/cosmic-randr-git"]
+	path = pkgs/cosmic-randr-git
+	url = https://aur.archlinux.org/cosmic-randr-git.git
+[submodule "pkgs/cosmic-screenshot-git"]
+	path = pkgs/cosmic-screenshot-git
+	url = https://aur.archlinux.org/cosmic-screenshot-git.git
+[submodule "pkgs/cosmic-settings-daemon-git"]
+	path = pkgs/cosmic-settings-daemon-git
+	url = https://aur.archlinux.org/cosmic-settings-daemon-git.git
+[submodule "pkgs/cosmic-settings-git"]
+	path = pkgs/cosmic-settings-git
+	url = https://aur.archlinux.org/cosmic-settings-git.git
+[submodule "pkgs/cosmic-workspaces-git"]
+	path = pkgs/cosmic-workspaces-git
+	url = https://aur.archlinux.org/cosmic-workspaces-git.git
+[submodule "pkgs/xdg-desktop-portal-cosmic-git"]
+	path = pkgs/xdg-desktop-portal-cosmic-git
+	url = https://aur.archlinux.org/xdg-desktop-portal-cosmic-git.git
