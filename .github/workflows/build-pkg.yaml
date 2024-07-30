@@ -70,8 +70,8 @@ jobs:
           name: Set up docker container
           run: |
             pacman-key --init
+            mkdir -p /etc/gnupg/ && echo -e "keyserver-options auto-key-retrieve" >> /etc/gnupg/gpg.conf
             pacman-key --populate archlinux
-            mkdir -p /etc/gnupg && echo "auto-key-retrieve" >> /etc/gnupg/gpg.conf
             sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
             echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
             echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
@@ -111,7 +111,7 @@ jobs:
           id: build-package
           shell: bash
           run: |
-            su build bash -c "cd /home/build/${{ inputs.package }} && makepkg -s --noconfirm"
+            su build bash -c "cd /home/build/${{ inputs.package }} && GNUPGHOME=/etc/pacman.d/gnupg makepkg -s --noconfirm"
         - name: Remove epoch in name
           shell: bash
           run: |
