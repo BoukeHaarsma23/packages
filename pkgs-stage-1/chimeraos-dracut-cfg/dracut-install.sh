@@ -10,6 +10,5 @@ while read -r line; do
 
 		install -Dm0644 "/${line%'/pkgbase'}/vmlinuz" "/boot/vmlinuz-${pkgbase}"
 		dracut --no-hostonly --no-hostonly-cmdline "${args[@]}" "/boot/initramfs-${pkgbase}.img" --kver "$kver"
-		#dracut --no-hostonly "${args[@]}" "/boot/initramfs-${pkgbase}-fallback.img" --kver "$kver"
 	fi
 done
