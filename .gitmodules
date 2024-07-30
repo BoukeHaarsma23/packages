@@ -17,7 +17,7 @@
 	path = pkgs-stage-2/gamescope-session-steam-git
 	url = https://aur.archlinux.org/gamescope-session-steam-git.git
 [submodule "pkgs/cosmic-applets-git"]
-	path = pkgs-stage-2/cosmic-applets-git
+	path = pkgs-stage-3/cosmic-applets-git
 	url = https://aur.archlinux.org/cosmic-applets-git.git
 [submodule "pkgs/cosmic-applibrary-git"]
 	path = pkgs/cosmic-applibrary-git
@@ -35,7 +35,7 @@
 	path = pkgs-stage-2/cosmic-icons-git
 	url = https://aur.archlinux.org/cosmic-icons-git.git
 [submodule "pkgs/cosmic-launcher-git"]
-	path = pkgs-stage-2/cosmic-launcher-git
+	path = pkgs-stage-3/cosmic-launcher-git
 	url = https://aur.archlinux.org/cosmic-launcher-git.git
 [submodule "pkgs/cosmic-notifications-git"]
 	path = pkgs/cosmic-notifications-git
@@ -53,10 +53,10 @@
 	path = pkgs-stage-2/cosmic-screenshot-git
 	url = https://aur.archlinux.org/cosmic-screenshot-git.git
 [submodule "pkgs/cosmic-settings-daemon-git"]
-	path = pkgs-stage-2/cosmic-settings-daemon-git
+	path = pkgs-stage-3/cosmic-settings-daemon-git
 	url = https://aur.archlinux.org/cosmic-settings-daemon-git.git
 [submodule "pkgs/cosmic-settings-git"]
-	path = pkgs-stage-2/cosmic-settings-git
+	path = pkgs-stage-3/cosmic-settings-git
 	url = https://aur.archlinux.org/cosmic-settings-git.git
 [submodule "pkgs/cosmic-workspaces-git"]
 	path = pkgs/cosmic-workspaces-git

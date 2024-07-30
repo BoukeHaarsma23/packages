@@ -22,12 +22,14 @@ jobs:
     outputs:
       pkgs: ${{ steps.set-pkgs.outputs.pkgs }}
       pkgsdeps: ${{ steps.set-pkgs.outputs.pkgsdeps }}
+      pkgsdepsdeps: ${{ steps.set-pkgs.outputs.pkgsdepsdeps }}
     steps:
       - uses: actions/checkout@v4
       - id: set-pkgs
         run: |
           echo "pkgs=$(ls -d pkgs/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
           echo "pkgsdeps=$(ls -d pkgs-stage-2/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+          echo "pkgsdepsdeps=$(ls -d pkgs-stage-3/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
         shell: bash
 
   build-packages-stage1:
@@ -216,7 +218,7 @@ jobs:
       strategy:
         fail-fast: false
         matrix:
-          package: ${{ fromJson(needs.list.outputs.pkgsdeps) }}
+          package: ${{ fromJson(needs.list.outputs.pkgsdepsdeps) }}
       container:
         image: archlinux:base-devel
         options: --privileged
@@ -274,7 +276,7 @@ jobs:
           run: |
             useradd -m build
             mkdir -p /home/build/${{ matrix.package }}
-            cp -vR ${{ matrix.package }} /home/build/pkgs-stage-2
+            cp -vR ${{ matrix.package }} /home/build/pkgs-stage-3
             chown -vR build /home/build/${{ matrix.package }}
         - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
           name: Build package
