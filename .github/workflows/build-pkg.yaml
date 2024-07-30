@@ -1,0 +1,117 @@
+name: Build docker container
+
+on:
+  workflow_call:
+    inputs:
+      package:
+        type: string
+        description: Directory that has package
+        required: true
+      folder:
+        type: string
+        description: one folder up of package
+        required: true
+      use-repo:
+        type: boolean
+        description: Use repo
+        default: false
+      march:
+        type: string
+        description: March to compile for
+        default: generic
+
+
+
+jobs:
+  build-package:
+    name: Build package
+    runs-on: ubuntu-latest
+    container:
+        image: archlinux:base-devel
+        volumes:
+          - /usr:/usr-host
+          - /opt:/opt-host
+        options: --privileged
+    steps:
+        - name: Install git
+          run: |
+            pacman -Sy --noconfirm git sudo
+        - uses: actions/checkout@v4
+          with:
+            submodules: recursive
+        - if: ${{ contains(matrix.package,'linux') }}
+          name: Maximize build space
+          run: |
+            df -h
+            rm -rf /usr-host/share/dotnet
+            rm -rf /usr-host/share/swift
+            rm -rf /usr-host/share/java
+            rm -rf /usr-host/local/lib/android
+            rm -rf /opt-host/ghc
+            rm -rf /opt-host/hostedtoolcache
+            rm -rf /opt-host/az
+            df -h
+        - if: ${{ !contains(inputs.package, '-git') }}
+          name: Cache package
+          id: cache
+          uses: actions/cache@v4
+          with:
+            key: ${{ inputs.package }}${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}
+            path: /home/build/${{ inputs.package }}
+        - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
+          name: Set up docker container
+          run: |
+            pacman-key --init
+            pacman-key --populate archlinux
+            mkdir -p /etc/gnupg && echo "auto-key-retrieve" >> /etc/gnupg/gpg.conf
+            sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
+            echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
+            echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+            echo "build ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/build
+        - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.use-repo }}
+          name: Download package artifact
+          uses: actions/download-artifact@v4
+          with:
+            pattern: packages*
+            merge-multiple: true
+            path:
+              /tmp/repo/
+        - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.use-repo}}
+          name: Setup bouhaa repo
+          run: |
+            repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
+            sed -i '/^\[core\]/s/^/\[bouhaa\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
+        - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+          name: Setup build flags
+          run: |
+            sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=${{ inputs.march }}/' /etc/makepkg.conf
+            sed -i 's/^#MAKEFLAGS=[^ ]*/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
+            cat /etc/makepkg.conf
+        - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+          name: Update to archive date
+          run: |
+            pacman -Syyuu --noconfirm
+        - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+          name: Create build user
+          run: |
+            useradd -m build
+            mkdir -p /home/build/${{ inputs.package }}
+            cp -vR ${{ inputs.package }} /home/build/${{ inputs.folder }}
+            chown -vR build /home/build/${{ inputs.package }}
+        - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+          name: Build package
+          id: build-package
+          shell: bash
+          run: |
+            su build bash -c "cd /home/build/${{ inputs.package }} && makepkg -s --noconfirm"
+        - name: Remove epoch in name
+          shell: bash
+          run: |
+            find /home/build/${{ inputs.package }}/*.pkg.* -type f -name '*:*' -execdir bash -c 'mv "$1" "${1//:/--}"' bash {} \;
+        - name: Upload package artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: packages-${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}
+            path: |
+              /home/build/${{ inputs.package }}/*.pkg.*
+            if-no-files-found: error
