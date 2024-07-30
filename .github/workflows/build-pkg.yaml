@@ -40,7 +40,14 @@ jobs:
             echo "date=$(date -d 'yesterday' +%Y%m%d)" >> $GITHUB_OUTPUT
         - uses: actions/checkout@v4
           with:
-            submodules: recursive
+            fetch-depth: 0
+        - name: Set ownership
+          run: |
+            # this is to fix GIT not liking owner of the checkout dir
+            chown -R $(id -u):$(id -g) $PWD
+        - name: Update single module
+          run: |
+            git submodule update --init -- ${{ inputs.package }}
         - if: ${{ contains(matrix.package,'linux') }}
           name: Maximize build space
           run: |
