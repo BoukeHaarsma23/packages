@@ -31,15 +31,30 @@ pacstrap -c -G mnt \
 	gamescope \
 	gamescope-session \
 	gamescope-session-steam \
+	cosmic-applets-git \
+	cosmic-icons-git \
+	cosmic-randr-git \
+	cosmic-applibrary-git \
+	cosmic-launcher-git \
+	cosmic-screenshot-git \
+	cosmic-bg-git \
+	cosmic-notifications-git \
+	cosmic-settings-daemon-git \
+	cosmic-comp-git \
+	cosmic-osd-git \
+	cosmic-settings-git \
+	cosmic-greeter-git \
+	cosmic-panel-git \
+	cosmic-workspaces-git \
 	chos/linux \
 	chos/lib32-mesa \
 	chos/lib32-vulkan-mesa-layers \
 	chos/lib32-vulkan-radeon \
 	chos/mesa \
 	chos/mesa-vdpau \
+	chos/vulkan-mesa-layers \
+	chos/vulkan-radeon \
 	nano \
 	steam \
 	which \
-	chos/vulkan-mesa-layers \
-	chos/vulkan-radeon \
 	zenergy-dkms-git
