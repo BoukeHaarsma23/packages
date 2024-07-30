@@ -33,9 +33,11 @@ jobs:
           - /opt:/opt-host
         options: --privileged
     steps:
-        - name: Install git
+        - name: prerequisites
+          id: pre
           run: |
             pacman -Sy --noconfirm git sudo
+            echo "date=$(date -d 'yesterday' +%Y%m%d)" >> $GITHUB_OUTPUT
         - uses: actions/checkout@v4
           with:
             submodules: recursive
@@ -51,12 +53,11 @@ jobs:
             rm -rf /opt-host/hostedtoolcache
             rm -rf /opt-host/az
             df -h
-        - if: ${{ !contains(inputs.package, '-git') }}
-          name: Cache package
+        - name: Cache package
           id: cache
           uses: actions/cache@v4
           with:
-            key: ${{ inputs.package }}${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}
+            key: ${{ inputs.package }}${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}${{ steps.pre.outputs.date }}
             path: /home/build/${{ inputs.package }}
         - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
           name: Set up docker container
