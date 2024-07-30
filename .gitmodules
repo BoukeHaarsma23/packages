@@ -70,3 +70,9 @@
 [submodule "pkgs/adw-gtk3"]
 	path = pkgs-stage-1/adw-gtk3
 	url = https://aur.archlinux.org/adw-gtk3.git
+[submodule "pkgs-stage-1/asusctl"]
+	path = pkgs-stage-1/asusctl
+	url = https://aur.archlinux.org/asusctl.git
+[submodule "pkgs-stage-1/frzr"]
+	path = pkgs-stage-1/frzr
+	url = https://aur.archlinux.org/frzr.git
