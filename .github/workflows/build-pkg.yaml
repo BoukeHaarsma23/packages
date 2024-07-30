@@ -1,4 +1,4 @@
-name: Build package in archlinux container
+name: PKGBUILD
 
 on:
   workflow_call:

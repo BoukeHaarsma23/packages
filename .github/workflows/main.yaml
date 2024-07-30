@@ -1,4 +1,4 @@
-name: Build packages
+name: Build Builder - Main
 on:
   push:
     branches: [ main ]
@@ -23,6 +23,7 @@ jobs:
       pkgs1: ${{ steps.set-pkgs.outputs.pkgs1 }}
       pkgs2: ${{ steps.set-pkgs.outputs.pkgs2 }}
       pkgs3: ${{ steps.set-pkgs.outputs.pkgs3 }}
+      # To use ENV's as inputs
       MARCH: ${{ steps.set-pkgs.outputs.MARCH }}
     steps:
       - uses: actions/checkout@v4
