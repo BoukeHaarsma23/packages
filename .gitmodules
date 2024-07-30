@@ -187,3 +187,12 @@
 [submodule "pkgs-stage-1/python-crccheck"]
 	path = pkgs-stage-1/python-crccheck
 	url = https://aur.archlinux.org/python-crccheck.git
+[submodule "pkgs-stage-1/ponymix"]
+	path = pkgs-stage-1/ponymix
+	url = https://aur.archlinux.org/ponymix.git
+[submodule "pkgs-stage-1/python-inotify-simple"]
+	path = pkgs-stage-1/python-inotify-simple
+	url = https://aur.archlinux.org/python-inotify-simple.git
+[submodule "pkgs-stage-1/pyglet"]
+	path = pkgs-stage-1/pyglet
+	url = https://aur.archlinux.org/pyglet.git
