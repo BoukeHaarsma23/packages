@@ -19,6 +19,10 @@ on:
         type: string
         description: March to compile for
         default: generic
+      archive_date:
+        type: string
+        description: Archive date used for builder
+        default: $(date -d 'yesterday' +%Y/%m/%d)
 
 
 
@@ -74,7 +78,7 @@ jobs:
             pacman-key --populate archlinux
             sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
             echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
-            echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+            echo "Server=https://archive.archlinux.org/repos/${{ inputs.archive_date }}/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
             echo "build ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/build
             sed -i 's/^#MAKEFLAGS=[^ ]*/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
         - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.use-repo }}
