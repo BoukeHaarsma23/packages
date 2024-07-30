@@ -68,5 +68,5 @@
 	path = pkgs/pop-icon-theme-git
 	url = https://aur.archlinux.org/pop-icon-theme-git.git
 [submodule "pkgs/pop-launcher-git"]
-	path = pkgs/pop-launcher-git
+	path = pkgs-stage-2/pop-launcher-git
 	url = https://aur.archlinux.org/pop-launcher-git.git
