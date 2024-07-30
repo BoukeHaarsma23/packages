@@ -76,3 +76,114 @@
 [submodule "pkgs-stage-1/frzr"]
 	path = pkgs-stage-1/frzr
 	url = https://aur.archlinux.org/frzr.git
+[submodule "ayaneo-platform-dkms-git"]
+	path = pkgs-stage-1/ayaneo-platform-dkms-git
+	url = https://aur.archlinux.org/ayaneo-platform-dkms-git.git
+[submodule "pkgs-stage-1/ayn-platform-dkms-git"]
+	path = pkgs-stage-1/ayn-platform-dkms-git
+	url = https://aur.archlinux.org/ayn-platform-dkms-git.git
+[submodule "pkgs-stage-1/bcm20702a1-firmware"]
+	path = pkgs-stage-1/bcm20702a1-firmware
+	url = https://aur.archlinux.org/bcm20702a1-firmware.git
+[submodule "pkgs-stage-1/boxtron"]
+	path = pkgs-stage-1/boxtron
+	url = https://aur.archlinux.org/boxtron.git
+[submodule "pkgs-stage-1/chimera"]
+	path = pkgs-stage-2/chimera
+	url = https://aur.archlinux.org/chimera.git
+[submodule "pkgs-stage-1/chimeraos-device-quirks-git"]
+	path = pkgs-stage-1/chimeraos-device-quirks-git
+	url = https://aur.archlinux.org/chimeraos-device-quirks-git.git
+[submodule "pkgs-stage-1/downgrade"]
+	path = pkgs-stage-1/downgrade
+	url = https://aur.archlinux.org/downgrade.git
+[submodule "pkgs-stage-1/evdev-keepalive"]
+	path = pkgs-stage-1/evdev-keepalive
+	url = https://aur.archlinux.org/evdev-keepalive.git
+[submodule "pkgs-stage-1/gamescope-plus"]
+	path = pkgs-stage-1/gamescope-plus
+	url = https://aur.archlinux.org/gamescope-plus.git
+[submodule "pkgs-stage-1/hhfc-git"]
+	path = pkgs-stage-1/hhfc-git
+	url = https://aur.archlinux.org/hhfc-git.git
+[submodule "pkgs-stage-1/inputplumber-bin"]
+	path = pkgs-stage-1/inputplumber-bin
+	url = https://aur.archlinux.org/inputplumber-bin.git
+[submodule "pkgs-stage-1/legendary"]
+	path = pkgs-stage-1/legendary
+	url = https://aur.archlinux.org/legendary.git
+[submodule "pkgs-stage-1/libretro-dosbox-pure-git"]
+	path = pkgs-stage-1/libretro-dosbox-pure-git
+	url = https://aur.archlinux.org/libretro-dosbox-pure-git.git
+[submodule "pkgs-stage-1/libretro-opera-git"]
+	path = pkgs-stage-1/libretro-opera-git
+	url = https://aur.archlinux.org/libretro-opera-git.git
+[submodule "pkgs-stage-1/libretro-prosystem-git"]
+	path = pkgs-stage-1/libretro-prosystem-git
+	url = https://aur.archlinux.org/libretro-prosystem-git.git
+[submodule "pkgs-stage-1/libretro-stella2014-git"]
+	path = pkgs-stage-1/libretro-stella2014-git
+	url = https://aur.archlinux.org/libretro-stella2014-git.git
+[submodule "pkgs-stage-1/libretro-virtualjaguar-git"]
+	path = pkgs-stage-1/libretro-virtualjaguar-git
+	url = https://aur.archlinux.org/libretro-virtualjaguar-git.git
+[submodule "pkgs-stage-1/linux-firmware-valve"]
+	path = pkgs-stage-1/linux-firmware-valve
+	url = https://aur.archlinux.org/linux-firmware-valve.git
+[submodule "pkgs-stage-1/kanit-font"]
+	path = pkgs-stage-1/kanit-font
+	url = https://aur.archlinux.org/kanit-font.git
+[submodule "pkgs-stage-1/nintendo-udev"]
+	path = pkgs-stage-1/nintendo-udev
+	url = https://aur.archlinux.org/nintendo-udev.git
+[submodule "pkgs-stage-1/opengamepadui-bin"]
+	path = pkgs-stage-2/opengamepadui-bin
+	url = https://aur.archlinux.org/opengamepadui-bin.git
+[submodule "pkgs-stage-1/opengamepadui-session-git"]
+	path = pkgs-stage-2/opengamepadui-session-git
+	url = https://aur.archlinux.org/opengamepadui-session-git.git
+[submodule "pkgs-stage-1/pikaur"]
+	path = pkgs-stage-1/pikaur
+	url = https://aur.archlinux.org/pikaur.git
+[submodule "pkgs-stage-1/powerstation-bin"]
+	path = pkgs-stage-1/powerstation-bin
+	url = https://aur.archlinux.org/powerstation-bin.git
+[submodule "pkgs-stage-1/python-gbopyrator"]
+	path = pkgs-stage-2/python-gbopyrator
+	url = https://aur.archlinux.org/python-gbopyrator.git
+[submodule "pkgs-stage-1/python-vdf"]
+	path = pkgs-stage-1/python-vdf
+	url = https://aur.archlinux.org/python-vdf.git
+[submodule "pkgs-stage-1/rtl8812au-dkms-git"]
+	path = pkgs-stage-1/rtl8812au-dkms-git
+	url = https://aur.archlinux.org/rtl8812au-dkms-git.git
+[submodule "pkgs-stage-1/rtl8814au-dkms-git"]
+	path = pkgs-stage-1/rtl8814au-dkms-git
+	url = https://aur.archlinux.org/rtl8814au-dkms-git.git
+[submodule "pkgs-stage-1/rtl8821au-dkms-git"]
+	path = pkgs-stage-1/rtl8821au-dkms-git
+	url = https://aur.archlinux.org/rtl8821au-dkms-git.git
+[submodule "pkgs-stage-1/ryzenadj-git"]
+	path = pkgs-stage-1/ryzenadj-git
+	url = https://aur.archlinux.org/ryzenadj-git.git
+[submodule "pkgs-stage-1/steam_notif_daemon"]
+	path = pkgs-stage-1/steam_notif_daemon
+	url = https://aur.archlinux.org/steam_notif_daemon.git
+[submodule "pkgs-stage-1/steam-powerbuttond-git"]
+	path = pkgs-stage-1/steam-powerbuttond-git
+	url = https://aur.archlinux.org/steam-powerbuttond-git.git
+[submodule "pkgs-stage-1/steam-removable-media-git"]
+	path = pkgs-stage-2/steam-removable-media-git
+	url = https://aur.archlinux.org/steam-removable-media-git.git
+[submodule "pkgs-stage-1/wyvern"]
+	path = pkgs-stage-1/wyvern
+	url = https://aur.archlinux.org/wyvern.git
+[submodule "pkgs-stage-1/rtl88x2bu-dkms-git"]
+	path = pkgs-stage-1/rtl88x2bu-dkms-git
+	url = https://aur.archlinux.org/rtl88x2bu-dkms-git.git
+[submodule "pkgs-stage-1/f3"]
+	path = pkgs-stage-1/f3
+	url = https://aur.archlinux.org/f3.git
+[submodule "pkgs-stage-1/python-crccheck"]
+	path = pkgs-stage-1/python-crccheck
+	url = https://aur.archlinux.org/python-crccheck.git
