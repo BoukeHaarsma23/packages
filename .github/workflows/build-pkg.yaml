@@ -1,4 +1,4 @@
-name: Build docker container
+name: Build package in archlinux container
 
 on:
   workflow_call:
@@ -68,6 +68,7 @@ jobs:
             echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
             echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
             echo "build ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/build
+            sed -i 's/^#MAKEFLAGS=[^ ]*/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
         - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.use-repo }}
           name: Download package artifact
           uses: actions/download-artifact@v4
@@ -77,15 +78,14 @@ jobs:
             path:
               /tmp/repo/
         - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.use-repo}}
-          name: Setup bouhaa repo
+          name: Setup chos repo
           run: |
-            repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.*
-            sed -i '/^\[core\]/s/^/\[bouhaa\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
-        - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+            repo-add /tmp/repo/chos.db.tar.gz /tmp/repo/*.pkg.*
+            sed -i '/^\[core\]/s/^/\[chos\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
+        - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.march != 'generic'}}
           name: Setup build flags
           run: |
             sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=${{ inputs.march }}/' /etc/makepkg.conf
-            sed -i 's/^#MAKEFLAGS=[^ ]*/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
             cat /etc/makepkg.conf
         - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
           name: Update to archive date

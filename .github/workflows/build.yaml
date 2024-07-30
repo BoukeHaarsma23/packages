@@ -6,9 +6,9 @@ on:
   schedule:
     - cron: '0 0 * * *'
 env:
- MARCH: znver1
+ MARCH: generic
  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
- IMAGE_NAME: chimeraos-oci
+ IMAGE_NAME: chimeraos-builder
 
 permissions:
   contents: write
@@ -102,9 +102,7 @@ jobs:
         shell: bash
         run: |
             find repo/*.pkg.* -type f -name '*--*' -execdir bash -c 'mv "$1" "${1//--/:}"' bash {} \;
-      - name: Create empty arch system
-        run: |
-          docker run --privileged -v $(pwd)/mnt:/mnt -v $(pwd):/workdir archlinux:latest /bin/bash /workdir/base.sh
+
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
       # https://github.com/macbre/push-to-ghcr/issues/12
       - name: Lowercase Registry
@@ -117,7 +115,7 @@ jobs:
       - name: Build Image
         id: build_image
         run:
-          sudo buildah bud -f ./Containerfile --label org.opencontainers.image.title=${{ env.IMAGE_NAME }} -t ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }} .
+          sudo buildah bud -f ./Containerfile -t ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }} .
       # Push the image to GHCR (Image Registry)
       - name: Push To GHCR
         id: push
