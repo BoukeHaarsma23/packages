@@ -196,3 +196,6 @@
 [submodule "pkgs-stage-1/pyglet"]
 	path = pkgs-stage-1/pyglet
 	url = https://aur.archlinux.org/pyglet.git
+[submodule "pkgs-stage-2/gamescope-session-steam-plus-git"]
+	path = pkgs-stage-3/gamescope-session-steam-plus-git
+	url = https://aur.archlinux.org/gamescope-session-steam-plus-git.git
