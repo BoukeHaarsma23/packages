@@ -1,4 +1,4 @@
-FROM archlinux:base-devel-multilib
+FROM archlinux:multilib-devel
 COPY repo /tmp/repo
 RUN repo-add /tmp/repo/chos.db.tar.gz /tmp/repo/*.pkg.* && \
     echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
