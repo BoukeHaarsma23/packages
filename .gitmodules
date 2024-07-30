@@ -64,3 +64,9 @@
 [submodule "pkgs/xdg-desktop-portal-cosmic-git"]
 	path = pkgs/xdg-desktop-portal-cosmic-git
 	url = https://aur.archlinux.org/xdg-desktop-portal-cosmic-git.git
+[submodule "pkgs/pop-icon-theme-git"]
+	path = pkgs/pop-icon-theme-git
+	url = https://aur.archlinux.org/pop-icon-theme-git.git
+[submodule "pkgs/pop-launcher-git"]
+	path = pkgs/pop-launcher-git
+	url = https://aur.archlinux.org/pop-launcher-git.git
