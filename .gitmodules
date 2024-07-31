@@ -89,7 +89,7 @@
 	path = pkgs-stage-1/boxtron
 	url = https://aur.archlinux.org/boxtron.git
 [submodule "pkgs-stage-1/chimera"]
-	path = pkgs-stage-2/chimera
+	path = pkgs-stage-3/chimera
 	url = https://aur.archlinux.org/chimera.git
 [submodule "pkgs-stage-1/chimeraos-device-quirks-git"]
 	path = pkgs-stage-1/chimeraos-device-quirks-git
