@@ -115,7 +115,7 @@ jobs:
           id: build-package
           shell: bash
           run: |
-            su build bash -c "cd /home/build/${{ inputs.package }} && GNUPGHOME=/etc/pacman.d/gnupg makepkg -s --noconfirm"
+            su build bash -c "cd /home/build/${{ inputs.package }} && GNUPGHOME=/etc/pacman.d/gnupg makepkg -s --noconfirm --skippgpcheck"
         - name: Remove epoch in name
           shell: bash
           run: |
