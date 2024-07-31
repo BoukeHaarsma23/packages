@@ -2,12 +2,10 @@
 Type = Path
 Operation = Install
 Operation = Upgrade
-Target = usr/lib/modules/*/vmlinuz
-Target = usr/lib/dracut/*
-Target = usr/lib/systemd/systemd
+Target = usr/lib/modules/*/pkgbase
 
 [Action]
-Description = Updating initramfs...
+Description = Updating linux initcpios (with dracut!)...
 When = PostTransaction
 Exec = /usr/local/bin/dracut-install.sh
 Depends = dracut
