@@ -9,8 +9,6 @@ on:
     - cron: '0 0 * * *'
 env:
  MARCH: generic
- REGISTRY: ghcr.io
- IMAGE_NAME: ${{ github.repository_owner }}/chimeraos-builder
 
 permissions:
   contents: write

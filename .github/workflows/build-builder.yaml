@@ -1,5 +1,7 @@
 name: Builder
-
+env:
+ REGISTRY: ghcr.io
+ IMAGE_NAME: ${{ github.repository_owner }}/chimeraos-builder
 on:
   workflow_call:
 
