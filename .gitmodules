@@ -100,9 +100,6 @@
 [submodule "pkgs-stage-1/evdev-keepalive"]
 	path = pkgs-stage-1/evdev-keepalive
 	url = https://aur.archlinux.org/evdev-keepalive.git
-[submodule "pkgs-stage-1/gamescope-plus"]
-	path = pkgs-stage-1/gamescope-plus
-	url = https://aur.archlinux.org/gamescope-plus.git
 [submodule "pkgs-stage-1/hhfc-git"]
 	path = pkgs-stage-1/hhfc-git
 	url = https://aur.archlinux.org/hhfc-git.git
