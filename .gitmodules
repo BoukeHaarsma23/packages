@@ -202,3 +202,6 @@
 [submodule "pkgs-stage-1/mesa-git"]
 	path = pkgs-stage-1/mesa-git
 	url = https://aur.archlinux.org/mesa-git.git
+[submodule "pkgs-stage-2/lib32-mesa-git"]
+	path = pkgs-stage-2/lib32-mesa-git
+	url = https://aur.archlinux.org/lib32-mesa-git.git
