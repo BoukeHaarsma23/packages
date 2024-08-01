@@ -52,8 +52,7 @@ jobs:
         - name: Update single module
           run: |
             git submodule update --init -- ${{ inputs.package }}
-        - if: ${{ contains(matrix.package,'linux') }}
-          name: Maximize build space
+        - name: Maximize build space
           run: |
             df -h
             rm -rf /usr-host/share/dotnet
