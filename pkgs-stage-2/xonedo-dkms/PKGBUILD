@@ -10,7 +10,7 @@ arch=('x86_64')
 url='https://github.com/boukehaarsma23/xone.git'
 license=('GPL2')
 depends=('dkms')
-#optdepends=('xonedo-dongle-firmware')
+optdepends=('xonedo-dongle-firmware')
 makedepends=('git')
 conflicts=('xone-dkms'
 		   'xow')
