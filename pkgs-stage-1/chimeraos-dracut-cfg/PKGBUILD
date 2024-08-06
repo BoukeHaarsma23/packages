@@ -29,22 +29,20 @@ source=(
     "60-dracut-remove.hook"
     "90-dracut-install.hook"
 )
-sha256sums=(
-    '827d59e8fda5c16b3fc45eb89ce7cd5be6c40d35dd8fe9a8d5ea825a63d3a089' # dracut-install.sh
-    'daefb58a0bf6df48cceaf4f7a898c17ca1f24e18cd7981b19f5f2034499592ed' # dracut-remove.sh
-    '1f356cc895156064cec63f589ea49acc59a4faab94b7ebe99dc904893da85907' # 00-chimeraos.conf
-    '7886062a7293d2e6bd6e975c4a8aaae63342af366479db8adf1b75860081cf53' # 10-chimeraos_use-fstab.conf
-    '103cf3322954202c3f0f740cd9079546d059f919c8b1b07ac703ec6f94cf17fb' # 20-chimeraos_plymouth.conf
-    '676b4a216cd3787882edf2e5bdaebce4577a11dbae176f81bab1c1b72917fc09' # 30-chimeraos_include-filesystems.conf
-    '8b4247161bb9158bf382517bb061360c184315e71fea244420d8db99d2730129' # 40-chimeraos_exclude-encryption.conf
-    '84cccef9706590795b37b4d949c0a34e6ee7ba34ee7ff01a8c808a2fe3ff7f89' # 50-chimeraos_exclude-mdraid.conf
-    'e1f9caf3878e65ca28951642ad02c1b167eacba777b4ccc893f6b8702a6d474e' # 60-chimeraos_exclude-networking.conf
-    '5822aa5a698577937820ab2565a203492b6af81434bf1423664ef68bba8c1617' # 70-chimeraos_exclude-nvdimm.conf
-    'b126149ca9f79bb1deb7ec640f4452dd61f4214558f954b7bc9196c5e9ca6ef0' # 80-chimeraos_exclude-qemu.conf
-    'e983493fe3e7d9395dd8d1c8949150144c8d4318ff17ff2aca004235734c8299' # 90-chimeraos_exclude-bluetooth.conf
-    '41c996bf7ef90e6a81690c4a06cbef89167882a036699834fe22637a1a184982' # 60-dracut-remove.hook
-    'df94baaf97d110f65f1443dd7063fe0e8ec1f73b5baf142c6ff08c260e571fcb' # 90-dracut-install.hook
-)
+sha256sums=('827d59e8fda5c16b3fc45eb89ce7cd5be6c40d35dd8fe9a8d5ea825a63d3a089'
+            'daefb58a0bf6df48cceaf4f7a898c17ca1f24e18cd7981b19f5f2034499592ed'
+            '1f356cc895156064cec63f589ea49acc59a4faab94b7ebe99dc904893da85907'
+            '7886062a7293d2e6bd6e975c4a8aaae63342af366479db8adf1b75860081cf53'
+            '200e84e62b015d188ab2be413a0551f38c8939cfdd27e0cb91a22e214bf1a5ab'
+            '676b4a216cd3787882edf2e5bdaebce4577a11dbae176f81bab1c1b72917fc09'
+            '8b4247161bb9158bf382517bb061360c184315e71fea244420d8db99d2730129'
+            '84cccef9706590795b37b4d949c0a34e6ee7ba34ee7ff01a8c808a2fe3ff7f89'
+            'e1f9caf3878e65ca28951642ad02c1b167eacba777b4ccc893f6b8702a6d474e'
+            '5822aa5a698577937820ab2565a203492b6af81434bf1423664ef68bba8c1617'
+            'b126149ca9f79bb1deb7ec640f4452dd61f4214558f954b7bc9196c5e9ca6ef0'
+            'e983493fe3e7d9395dd8d1c8949150144c8d4318ff17ff2aca004235734c8299'
+            '41c996bf7ef90e6a81690c4a06cbef89167882a036699834fe22637a1a184982'
+            'df94baaf97d110f65f1443dd7063fe0e8ec1f73b5baf142c6ff08c260e571fcb')
 
 package() {
     mkdir -p "$pkgdir/etc/dracut.conf.d/"
