@@ -8,7 +8,7 @@ on:
   schedule:
     - cron: '0 0 * * *'
 env:
- MARCH: generic
+ MARCH: x86-64-v3
 
 permissions:
   contents: write
