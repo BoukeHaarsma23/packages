@@ -208,10 +208,11 @@ package_lib32-vulkan-mesa-layers-chimeraos() {
     'lib32-libxcb'
     'lib32-wayland'
 
-    'vulkan-mesa-layers'
+    'vulkan-mesa-layers-chimeraos'
   )
   conflicts=('lib32-vulkan-mesa-layer')
   replaces=('lib32-vulkan-mesa-layer')
+  provides=('lib32-vulkan-mesa-layer')
 
   rm -rv fakeinstall/usr/share/vulkan/explicit_layer.d
   rm -rv fakeinstall/usr/share/vulkan/implicit_layer.d
@@ -236,7 +237,7 @@ package_lib32-opencl-clover-mesa-chimeraos() {
     'lib32-zlib'
     'lib32-zstd'
 
-    'opencl-clover-mesa'
+    'opencl-clover-mesa-chimeraos'
   )
   optdepends=('opencl-headers: headers necessary for OpenCL development')
   provides=('lib32-opencl-driver')
@@ -265,7 +266,7 @@ package_lib32-opencl-rusticl-mesa-chimeraos() {
     'lib32-zlib'
     'lib32-zstd'
 
-    'opencl-rusticl-mesa'
+    'opencl-rusticl-mesa-chimeraos'
   )
   optdepends=('opencl-headers: headers necessary for OpenCL development')
   provides=('lib32-opencl-driver')
@@ -295,7 +296,7 @@ package_lib32-vulkan-intel-chimeraos() {
     'lib32-zlib'
     'lib32-zstd'
 
-    'vulkan-intel'
+    'vulkan-intel-chimeraos'
   )
   optdepends=('lib32-vulkan-mesa-layers: additional vulkan layers')
   provides=('lib32-vulkan-driver')
@@ -323,7 +324,7 @@ package_lib32-vulkan-nouveau-chimeraos() {
     'lib32-zlib'
     'lib32-zstd'
 
-    'vulkan-nouveau'
+    'vulkan-nouveau-chimeraos'
   )
   optdepends=('lib32-vulkan-mesa-layers: additional vulkan layers')
   provides=('lib32-vulkan-driver')
@@ -353,7 +354,7 @@ package_lib32-vulkan-radeon-chimeraos() {
     'lib32-zlib'
     'lib32-zstd'
 
-    'vulkan-radeon'
+    'vulkan-radeon-chimeraos'
   )
   optdepends=('lib32-vulkan-mesa-layers: additional vulkan layers')
   provides=('lib32-vulkan-driver')
@@ -383,7 +384,7 @@ package_lib32-vulkan-swrast-chimeraos() {
     'lib32-zlib'
     'lib32-zstd'
 
-    'vulkan-swrast'
+    'vulkan-swrast-chimeraos'
   )
   optdepends=('lib32-vulkan-mesa-layers: additional vulkan layers')
   conflicts=('lib32-vulkan-mesa')
@@ -411,7 +412,7 @@ package_lib32-libva-mesa-driver-chimeraos() {
     'lib32-zlib'
     'lib32-zstd'
 
-    'libva-mesa-driver'
+    'libva-mesa-driver-chimeraos'
   )
   provides=('lib32-libva-driver')
 
@@ -435,7 +436,7 @@ package_lib32-mesa-vdpau-chimeraos() {
     'lib32-zlib'
     'lib32-zstd'
 
-    'mesa-vdpau'
+    'mesa-vdpau-chimeraos'
   )
   provides=('lib32-vdpau-driver')
 
@@ -464,12 +465,13 @@ package_lib32-mesa-chimeraos() {
     'lib32-zlib'
     'lib32-zstd'
 
-    'mesa'
+    'mesa-chimeraos'
   )
   optdepends=(
     'opengl-man-pages: for the OpenGL API man pages'
   )
   provides=(
+    'lib32-mesa'
     'lib32-mesa-libgl'
     'lib32-opengl-driver'
   )

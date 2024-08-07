@@ -212,6 +212,7 @@ package_vulkan-mesa-layers-chimeraos() {
   )
   conflicts=('vulkan-mesa-layer')
   replaces=('vulkan-mesa-layer')
+  provides=('vulkan-mesa-layer')
 
   _install fakeinstall/usr/share/vulkan/explicit_layer.d
   _install fakeinstall/usr/share/vulkan/implicit_layer.d
@@ -295,6 +296,7 @@ package_vulkan-intel-chimeraos() {
     'zlib'
     'zstd'
   )
+  conflicts=('vulkan-intel')
   optdepends=('vulkan-mesa-layers: additional vulkan layers')
   provides=('vulkan-driver')
 
@@ -321,6 +323,7 @@ package_vulkan-nouveau-chimeraos() {
     'zlib'
     'zstd'
   )
+  conflicts=('vulkan-nouveau')
   optdepends=('vulkan-mesa-layers: additional vulkan layers')
   provides=('vulkan-driver')
 
@@ -349,6 +352,7 @@ package_vulkan-radeon-chimeraos() {
     'zlib'
     'zstd'
   )
+  conflicts=('vulkan-radeon')
   optdepends=('vulkan-mesa-layers: additional vulkan layers')
   provides=('vulkan-driver')
 
@@ -458,6 +462,7 @@ package_mesa-chimeraos() {
     'opengl-man-pages: for the OpenGL API man pages'
   )
   provides=(
+    'mesa'
     'mesa-libgl'
     'opengl-driver'
   )
