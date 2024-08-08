@@ -32,6 +32,7 @@ source=(
   "linux-chimeraos.tar.gz::https://github.com/ChimeraOS/linux/archive/refs/tags/$_srctag.tar.gz"
   config  # the main kernel config file
   config-chimera # our config that will be merged
+  ayaneo.patch
 )
 
 validpgpkeys=(
@@ -42,7 +43,8 @@ validpgpkeys=(
 )
 b2sums=('30734bb71e0da72da822f837ae44cd3a05734d9def303096aa8c8bd514f79514e4b3bcfaf00ace41f47ae6756000639df645c544993a2fe5d3f94525b2be6826'
         '00dde098ab988db02a0667288546eae32208a30dbcf5edae6905c54edae51969c9a7eec8aa5a25363b0aa7463f716ac621aee8b0c1dc4c7d149e270e851aaa5c'
-        '0ff30bfa49c43a96f183cc8e0884a80893d57bf26e55a6da09c56b17f710f8289165d6d4893dfeb505558968cb85bb5137d095ac940f88e0fa7f81e83c034aec')
+        '0ff30bfa49c43a96f183cc8e0884a80893d57bf26e55a6da09c56b17f710f8289165d6d4893dfeb505558968cb85bb5137d095ac940f88e0fa7f81e83c034aec'
+	'SKIP')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
