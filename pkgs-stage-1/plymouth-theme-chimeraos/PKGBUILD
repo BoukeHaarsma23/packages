@@ -9,15 +9,10 @@ url='https://chimeraos.org'
 license=('GPL')
 depends=('plymouth')
 source=(
-    'plymouth.conf'
-	'plymouth-theme-chimeraos.tar.xz'
+    'chimeraos-text.png'
 )
-sha256sums=('0f69e70d2308a88ca15fba738d1455882c83da4ec80f1854c55eda1fd0bb9c1e'
-            '2871caa5891cbfd26775b39adb5e7bf30d26820914e0e325592ec98836b57365')
+sha256sums=('9f9d231d74145997752ea3e8f7b0cb85cf622e87b21a1a6e4589dbe2e420842d')
 
 package() {
-    install -Dvm644 plymouth.conf "${pkgdir}/etc/plymouth/plymouth.conf"
-	cd "${srcdir}/chimeraos"
-	mkdir -p "${pkgdir}/usr/share/plymouth/themes/chimeraos"
-	install -Dvm644 * "${pkgdir}/usr/share/plymouth/themes/chimeraos"
+    install -Dvm644 chimeraos-text.png "${pkgdir}/usr/share/plymouth/themes/spinner/watermark.png"
 }
