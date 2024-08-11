@@ -100,7 +100,6 @@ source=("git+https://git.savannah.gnu.org/git/grub.git#tag=${_tag}?signed"
         'debian-mkconfig-other-inits.patch'
         'debian-zpool-full-device-name.patch'
         'debian-net-read-bracketed-ipv6-addr.patch'
-        'debian-bootp-new-net_bootp6-command.patch'
         'debian-efinet-uefi-ipv6-pxe-support.patch'
         'debian-bootp-process-dhcpack-http-boot.patch'
         'debian-efinet-set-network-from-uefi-devpath.patch'
@@ -131,8 +130,8 @@ source=("git+https://git.savannah.gnu.org/git/grub.git#tag=${_tag}?signed"
         'build-tweaks-2.patch' # applied via bootstrap by build-tweaks-1.patch
         'grub.default')
 
-sha256sums=('SKIP'
-            'SKIP'
+sha256sums=('26e01d6bc45b5b7a08a069e6aae35c856dac3177cf7fccdf0f98d210f8f634a4'
+            '577e8e8a9d32b60e61fdc33c083761b404625ad4c1524e261b597739dc852db1'
             '391d194f6307fcd0915daafd360509a734e26f3e4013e63d47deb2530d59e66e'
             'SKIP'
             '417fb948234b9f1a7b466a88ec9aef51e9409131f375fc2bacd9216504088b14'
@@ -174,7 +173,6 @@ sha256sums=('SKIP'
             'f83c19cdf398e5a3c0ddab722566d9e1753a68a5177663ff6944451a40454230'
             'f54f6558eb17affdce9974f7917ef5ef28afb675faa1b7de066d048aa9f36205'
             '7a2df4ae172381ef4f1a3049f8f18a7dccfd1918414da0a06a126491ba89e617'
-            'cfdcd31f37483930ce0affa3f379c6b62f948dd4099000e2765e49c5868e8e74'
             '22fae003a69c01e25708d4463eed29e4b3e0fa462ca1a2d76fd5890bad5c86dd'
             'f7d9b9a863dfa944e0845e0f18e2d7c2a4085df50991791ccc08bfcb94a2e0a1'
             'dc01caea3c829c8afc265f709acc0b3cf8b9796c37dd9d9832ffe27757c25cef'
@@ -287,7 +285,6 @@ prepare() {
 	patch -Np1 -i "${srcdir}/debian-mkconfig-other-inits.patch"
 	patch -Np1 -i "${srcdir}/debian-zpool-full-device-name.patch"
 	patch -Np1 -i "${srcdir}/debian-net-read-bracketed-ipv6-addr.patch"
-	patch -Np1 -i "${srcdir}/debian-bootp-new-net_bootp6-command.patch"
 	patch -Np1 -i "${srcdir}/debian-efinet-uefi-ipv6-pxe-support.patch"
 	patch -Np1 -i "${srcdir}/debian-bootp-process-dhcpack-http-boot.patch"
 	patch -Np1 -i "${srcdir}/debian-efinet-set-network-from-uefi-devpath.patch"
