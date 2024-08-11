@@ -12,12 +12,13 @@ depends=('efibootmgr' 'util-linux' 'coreutils')
 makedepends=('git' 'openssh' 'gnu-efi-libs' 'grub' 'fontconfig' 'noto-fonts')
 source=("git+https://gitlab.com/evlaV/${pkgname}.git#tag=$_srctag")
 sha512sums=('SKIP')
+options=(!lto)
 
 build() {
 	cd "${pkgname}"
 	autoreconf -vif
 	./configure --prefix=/usr --with-release-version="$pkgver"
-	make
+	make CFLAGS="-Wno-discarded-qualifiers -Wno-stringop-truncation -Wno-unused-result -fno-stack-protector -fPIC"
 }
 
 package() {
