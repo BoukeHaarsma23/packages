@@ -36,7 +36,7 @@ conflicts=('grub-common' 'grub-bios' 'grub-emu' "grub-efi-${_EFI_ARCH}" 'grub-le
 replaces=('grub-common' 'grub-bios' 'grub-emu' "grub-efi-${_EFI_ARCH}")
 provides=('grub-common' 'grub-bios' 'grub-emu' "grub-efi-${_EFI_ARCH}")
 
-makedepends=('git' 'rsync' 'xz' 'freetype2' 'ttf-dejavu' 'python>=3.11' 'python<3.12' 'autogen'
+makedepends=('git' 'rsync' 'xz' 'freetype2' 'ttf-dejavu' 'python>=3.11' 'autogen'
              'texinfo' 'help2man' 'gettext' 'device-mapper' 'fuse2')
 depends=('sh' 'xz' 'gettext' 'device-mapper')
 optdepends=('freetype2: For grub-mkfont usage'
