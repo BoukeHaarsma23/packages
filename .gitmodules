@@ -13,9 +13,6 @@
 [submodule "pkgs/gamescope-session-steam-git"]
 	path = pkgs-stage-2/gamescope-session-steam-git
 	url = https://aur.archlinux.org/gamescope-session-steam-git.git
-[submodule "pkgs/xdg-desktop-portal-cosmic-git"]
-	path = pkgs-stage-1/xdg-desktop-portal-cosmic-git
-	url = https://aur.archlinux.org/xdg-desktop-portal-cosmic-git.git
 [submodule "pkgs/pop-icon-theme-git"]
 	path = pkgs-stage-1/pop-icon-theme-git
 	url = https://aur.archlinux.org/pop-icon-theme-git.git
