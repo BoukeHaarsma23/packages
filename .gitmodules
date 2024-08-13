@@ -22,9 +22,6 @@
 [submodule "pkgs/pop-launcher-git"]
 	path = pkgs-stage-2/pop-launcher-git
 	url = https://aur.archlinux.org/pop-launcher-git.git
-[submodule "pkgs/adw-gtk3"]
-	path = pkgs-stage-1/adw-gtk3
-	url = https://aur.archlinux.org/adw-gtk3.git
 [submodule "pkgs-stage-1/asusctl"]
 	path = pkgs-stage-1/asusctl
 	url = https://aur.archlinux.org/asusctl.git
