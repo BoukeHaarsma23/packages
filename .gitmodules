@@ -13,9 +13,6 @@
 [submodule "pkgs/gamescope-session-steam-git"]
 	path = pkgs-stage-2/gamescope-session-steam-git
 	url = https://aur.archlinux.org/gamescope-session-steam-git.git
-[submodule "pkgs/pop-launcher-git"]
-	path = pkgs-stage-2/pop-launcher-git
-	url = https://aur.archlinux.org/pop-launcher-git.git
 [submodule "pkgs-stage-1/asusctl"]
 	path = pkgs-stage-1/asusctl
 	url = https://aur.archlinux.org/asusctl.git
