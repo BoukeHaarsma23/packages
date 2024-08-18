@@ -8,9 +8,7 @@ arch=('any')
 url="https://github.com/boukehaarsma23/frzr"
 license=('MIT')
 depends=('btrfs-progs' 'parted' 'libnewt' 'dosfstools' 'jq' 'util-linux' 'skopeo')
-optdepends=(
-    'dracut: generate initramfs for kernels installed via frzr kernel command'
-)
+
 source=(frzr::'git+https://github.com/boukehaarsma23/frzr.git'
         '99-frzr-kernel-install.hook')
 md5sums=('SKIP'
