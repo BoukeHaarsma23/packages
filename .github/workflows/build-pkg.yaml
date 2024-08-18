@@ -52,14 +52,7 @@ jobs:
         - name: Update single module
           run: |
             git submodule update --init -- ${{ inputs.package }}
-        - name: Cache package
-          id: cache
-          uses: actions/cache@v4
-          with:
-            key: ${{ inputs.package }}${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}${{ steps.pre.outputs.date }}
-            path: /home/build/${{ inputs.package }}
-        - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
-          name: Maximize build space
+        - name: Maximize build space
           run: |
             df -h
             rm -rf /usr-host/share/dotnet
@@ -70,6 +63,12 @@ jobs:
             rm -rf /opt-host/hostedtoolcache
             rm -rf /opt-host/az
             df -h
+        - name: Cache package
+          id: cache
+          uses: actions/cache@v4
+          with:
+            key: ${{ inputs.package }}${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}${{ steps.pre.outputs.date }}
+            path: /home/build/${{ inputs.package }}
         - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
           name: Set up docker container
           run: |
