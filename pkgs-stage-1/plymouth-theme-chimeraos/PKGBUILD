@@ -17,5 +17,5 @@ sha256sums=('e7024f130682a265aa683bcd46000732b7ce18ec4daecdabc6836ea2e622cc4a'
 
 package() {
     install -Dm644 "${srcdir}/chimeraos/"* -t "${pkgdir}/usr/share/plymouth/themes/chimeraos"
-    install -Dm644 "${srcdir}/plymouth.conf" -t "${pkgdir}/etc/plymouthd/"
+    install -Dm644 "${srcdir}/plymouth.conf" -t "${pkgdir}/etc/plymouth/"
 }
