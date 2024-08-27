@@ -1,0 +1,5 @@
+#! /bin/bash
+
+export PACKAGE_OVERRIDES="\
+    https://archive.archlinux.org/packages/r/rust-bindgen/rust-bindgen-0.69.4-1-x86_64.pkg.tar.zst \
+"
