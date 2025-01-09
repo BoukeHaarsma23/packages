@@ -140,7 +140,7 @@
 	path = pkgs-stage-3/gamescope-session-steam-plus-git
 	url = https://aur.archlinux.org/gamescope-session-steam-plus-git.git
 [submodule "pkgs-stage-1/mesa-git"]
-	path = pkgs-stage-1/mesa-git
+	path = pkgs-stage-2/mesa-git
 	url = https://aur.archlinux.org/mesa-git.git
 [submodule "pkgs-stage-2/lib32-mesa-git"]
 	path = pkgs-stage-2/lib32-mesa-git
@@ -151,3 +151,6 @@
 [submodule "pkgs-stage-1/gamescope-git"]
 	path = pkgs-stage-1/gamescope-git
 	url = https://aur.archlinux.org/gamescope-git.git
+[submodule "pkgs-stage-1/directx-headers-git"]
+	path = pkgs-stage-1/directx-headers-git
+	url = https://aur.archlinux.org/directx-headers-git.git
