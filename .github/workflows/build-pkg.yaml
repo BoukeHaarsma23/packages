@@ -103,7 +103,7 @@ jobs:
           run: |
             pacman -Syyuu --noconfirm
             source $PWD/manifest
-            pacman --noconfirm -U ${PACKAGE_OVERRIDES}
+            if [ -n "${PACKAGE_OVERRIDES}" ]; then pacman --noconfirm -U ${PACKAGE_OVERRIDES} fi
         - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
           name: Create build user
           run: |
