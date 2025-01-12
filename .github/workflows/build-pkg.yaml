@@ -111,6 +111,8 @@ jobs:
             mkdir -p /home/build/${{ inputs.package }}
             cp -vR ${{ inputs.package }} /home/build/${{ inputs.folder }}
             chown -vR build /home/build/${{ inputs.package }}
+            mkdir -p /home/build/.config/frogminer/
+            cp -v mesa-git.cfg /home/build/.config/frogminer/mesa-git.cfg
         - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
           name: Build package
           id: build-package
