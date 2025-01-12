@@ -13,45 +13,9 @@
 [submodule "pkgs/gamescope-session-steam-git"]
 	path = pkgs-stage-2/gamescope-session-steam-git
 	url = https://aur.archlinux.org/gamescope-session-steam-git.git
-[submodule "pkgs-stage-1/chimera"]
-	path = pkgs-stage-3/chimera
-	url = https://aur.archlinux.org/chimera.git
-[submodule "pkgs-stage-1/legendary"]
-	path = pkgs-stage-1/legendary
-	url = https://aur.archlinux.org/legendary.git
-[submodule "pkgs-stage-1/kanit-font"]
-	path = pkgs-stage-1/kanit-font
-	url = https://aur.archlinux.org/kanit-font.git
-[submodule "pkgs-stage-1/opengamepadui-bin"]
-	path = pkgs-stage-2/opengamepadui-bin
-	url = https://aur.archlinux.org/opengamepadui-bin.git
-[submodule "pkgs-stage-1/opengamepadui-session-git"]
-	path = pkgs-stage-2/opengamepadui-session-git
-	url = https://aur.archlinux.org/opengamepadui-session-git.git
-[submodule "pkgs-stage-1/pikaur"]
-	path = pkgs-stage-1/pikaur
-	url = https://aur.archlinux.org/pikaur.git
-[submodule "pkgs-stage-1/python-gbopyrator"]
-	path = pkgs-stage-2/python-gbopyrator
-	url = https://aur.archlinux.org/python-gbopyrator.git
-[submodule "pkgs-stage-1/ryzenadj-git"]
-	path = pkgs-stage-1/ryzenadj-git
-	url = https://aur.archlinux.org/ryzenadj-git.git
 [submodule "pkgs-stage-1/steam_notif_daemon"]
 	path = pkgs-stage-1/steam_notif_daemon
 	url = https://aur.archlinux.org/steam_notif_daemon.git
-[submodule "pkgs-stage-1/steam-powerbuttond-git"]
-	path = pkgs-stage-1/steam-powerbuttond-git
-	url = https://aur.archlinux.org/steam-powerbuttond-git.git
-[submodule "pkgs-stage-1/steam-removable-media-git"]
-	path = pkgs-stage-2/steam-removable-media-git
-	url = https://aur.archlinux.org/steam-removable-media-git.git
-[submodule "pkgs-stage-1/wyvern"]
-	path = pkgs-stage-1/wyvern
-	url = https://aur.archlinux.org/wyvern.git
-[submodule "pkgs-stage-1/f3"]
-	path = pkgs-stage-1/f3
-	url = https://aur.archlinux.org/f3.git
 [submodule "pkgs-stage-2/gamescope-session-steam-plus-git"]
 	path = pkgs-stage-3/gamescope-session-steam-plus-git
 	url = https://aur.archlinux.org/gamescope-session-steam-plus-git.git
