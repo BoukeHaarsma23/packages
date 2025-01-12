@@ -22,9 +22,6 @@
 [submodule "pkgs-stage-1/gamescope-git"]
 	path = pkgs-stage-1/gamescope-git
 	url = https://aur.archlinux.org/gamescope-git.git
-[submodule "pkgs-stage-1/directx-headers-git"]
-	path = pkgs-stage-1/directx-headers-git
-	url = https://aur.archlinux.org/directx-headers-git.git
 [submodule "pkgs-stage-2/mesa-git"]
 	path = pkgs-stage-2/mesa-git
 	url = https://github.com/Frogging-Family/mesa-git.git
