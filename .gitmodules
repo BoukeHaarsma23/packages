@@ -22,3 +22,6 @@
 [submodule "pkgs-stage-2/mesa-git"]
 	path = pkgs-stage-2/mesa-git
 	url = https://github.com/Frogging-Family/mesa-git.git
+[submodule "pkgs-stage-3/gamescope-session-steam-plus-git"]
+	path = pkgs-stage-3/gamescope-session-steam-plus-git
+	url = https://aur.archlinux.org/gamescope-session-steam-plus-git.git

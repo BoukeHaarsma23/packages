@@ -1,7 +1,7 @@
 FROM archlinux:multilib-devel
 ARG ARCHIVE_DATE=""
 COPY repo /tmp/repo
-RUN repo-add /tmp/repo/chos.db.tar.gz /tmp/repo/*.pkg.* && \
+RUN repo-add /tmp/repo/bouhaa.db.tar.gz /tmp/repo/*.pkg.* && \
     echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
     # Set archive date
     if [ -n "${ARCHIVE_DATE}" ]; then \
@@ -10,7 +10,7 @@ RUN repo-add /tmp/repo/chos.db.tar.gz /tmp/repo/*.pkg.* && \
     echo "Server=https://archive.archlinux.org/repos/$(date -d 'yesterday' +%Y/%m/%d)/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist; \
     fi && \
     # Add custom repo
-    sed -i '/^\[core\]/s/^/\[chos\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf && \
+    sed -i '/^\[core\]/s/^/\[bouhaa\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf && \
     # Up/Downgrade and install arch-install-scripts
     pacman --noconfirm -Syyuu arch-install-scripts
 
