@@ -24,96 +24,94 @@ on:
         description: Archive date used for builder
         default: $(date -d 'yesterday' +%Y/%m/%d)
 
-
-
 jobs:
   build-package:
     name: Build package
     runs-on: ubuntu-latest
     container:
-        image: archlinux:base-devel
-        volumes:
-          - /usr:/usr-host
-          - /opt:/opt-host
-        options: --privileged
+      image: archlinux:base-devel
+      volumes:
+        - /usr:/usr-host
+        - /opt:/opt-host
+      options: --privileged
     steps:
-        - name: prerequisites
-          id: pre
-          run: |
-            pacman -Sy --noconfirm git sudo
-            echo "date=$(date -d 'yesterday' +%Y%m%d)" >> $GITHUB_OUTPUT
-        - uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
-        - name: Set ownership
-          run: |
-            # this is to fix GIT not liking owner of the checkout dir
-            chown -R $(id -u):$(id -g) $PWD
-        - name: Update single module
-          run: |
-            git submodule update --init -- ${{ inputs.package }}
-        - name: Cache package
-          id: cache
-          uses: actions/cache@v4
-          with:
-            key: ${{ inputs.package }}${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}${{ steps.pre.outputs.date }}
-            path: /home/build/${{ inputs.package }}
-        - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
-          name: Set up docker container
-          run: |
-            pacman-key --init
-            pacman-key --populate archlinux
-            echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf
-            sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
-            echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
-            echo "Server=https://archive.archlinux.org/repos/${{ inputs.archive_date }}/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-            echo "build ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/build
-            sed -i 's/^#MAKEFLAGS=[^ ]*/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
-        - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.use-repo }}
-          name: Download package artifact
-          uses: actions/download-artifact@v4
-          with:
-            pattern: packages*
-            merge-multiple: true
-            path:
-              /tmp/repo/
-        - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.use-repo}}
-          name: Setup chos repo
-          run: |
-            repo-add /tmp/repo/chos.db.tar.gz /tmp/repo/*.pkg.*
-            sed -i '/^\[core\]/s/^/\[chos\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
-        - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.march != 'generic'}}
-          name: Setup build flags
-          run: |
-            sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=${{ inputs.march }}/' /etc/makepkg.conf
-            cat /etc/makepkg.conf
-        - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
-          name: Update to archive date and install overrides
-          run: |
-            pacman -Syyuu --noconfirm
-        - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
-          name: Create build user
-          run: |
-            useradd -m build
-            mkdir -p /home/build/${{ inputs.package }}
-            cp -vR ${{ inputs.package }} /home/build/${{ inputs.folder }}
-            chown -vR build /home/build/${{ inputs.package }}
-            mkdir -p /home/build/.config/frogminer/
-            cp -v mesa-git.cfg /home/build/.config/frogminer/mesa-git.cfg
-        - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
-          name: Build package
-          id: build-package
-          shell: bash
-          run: |
-            su build bash -c "cd /home/build/${{ inputs.package }} && GNUPGHOME=/etc/pacman.d/gnupg makepkg -s --noconfirm --skippgpcheck"
-        - name: Remove epoch in name
-          shell: bash
-          run: |
-            find /home/build/${{ inputs.package }}/*.pkg.* -type f -name '*:*' -execdir bash -c 'mv "$1" "${1//:/--}"' bash {} \;
-        - name: Upload package artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: packages-${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}
-            path: |
-              /home/build/${{ inputs.package }}/*.pkg.*
-            if-no-files-found: error
+      - name: prerequisites
+        id: pre
+        run: |
+          pacman -Sy --noconfirm git sudo
+          echo "date=$(date -d 'yesterday' +%Y%m%d)" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set ownership
+        run: |
+          # this is to fix GIT not liking owner of the checkout dir
+          chown -R $(id -u):$(id -g) $PWD
+      - name: Update single module
+        run: |
+          git submodule update --init -- ${{ inputs.package }}
+      - name: Cache package
+        id: cache
+        uses: actions/cache@v4
+        with:
+          key: ${{ inputs.package }}${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}${{ steps.pre.outputs.date }}
+          path: /home/build/${{ inputs.package }}
+      - if: ${{ steps.cache.outputs.cache-hit != 'true'}}
+        name: Set up docker container
+        run: |
+          pacman-key --init
+          pacman-key --populate archlinux
+          echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf
+          sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
+          echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
+          echo "Server=https://archive.archlinux.org/repos/${{ inputs.archive_date }}/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+          echo "build ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/build
+          sed -i 's/^#MAKEFLAGS=[^ ]*/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.use-repo }}
+        name: Download package artifact
+        uses: actions/download-artifact@v4
+        with:
+          pattern: packages*
+          merge-multiple: true
+          path: /tmp/repo/
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.use-repo}}
+        name: Setup chos repo
+        run: |
+          repo-add /tmp/repo/chos.db.tar.gz /tmp/repo/*.pkg.*
+          sed -i '/^\[core\]/s/^/\[chos\]\nSigLevel = Optional TrustAll\nServer = file:\/\/\/tmp\/repo\n\n/' /etc/pacman.conf
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' && inputs.march != 'generic'}}
+        name: Setup build flags
+        run: |
+          sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=${{ inputs.march }}/' /etc/makepkg.conf
+          cat /etc/makepkg.conf
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: Update to archive date and install overrides
+        run: |
+          pacman -Syyuu --noconfirm
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: Create build user
+        run: |
+          useradd -m build
+          mkdir -p /home/build/${{ inputs.package }}
+          cp -vR ${{ inputs.package }} /home/build/${{ inputs.folder }}
+          chown -vR build /home/build/${{ inputs.package }}
+          mkdir -p /home/build/.config/frogminer/
+          cp -v mesa-git.cfg /home/build/.config/frogminer/mesa-git.cfg
+          cp -v *.mymesapatch /home/build/${{ inputs.package }}
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: Build package
+        id: build-package
+        shell: bash
+        run: |
+          su build bash -c "cd /home/build/${{ inputs.package }} && GNUPGHOME=/etc/pacman.d/gnupg makepkg -s --noconfirm --skippgpcheck"
+      - name: Remove epoch in name
+        shell: bash
+        run: |
+          find /home/build/${{ inputs.package }}/*.pkg.* -type f -name '*:*' -execdir bash -c 'mv "$1" "${1//:/--}"' bash {} \;
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages-${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}
+          path: |
+            /home/build/${{ inputs.package }}/*.pkg.*
+          if-no-files-found: error
