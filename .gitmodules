@@ -25,3 +25,6 @@
 [submodule "pkgs-stage-3/gamescope-session-steam-plus-git"]
 	path = pkgs-stage-3/gamescope-session-steam-plus-git
 	url = https://aur.archlinux.org/gamescope-session-steam-plus-git.git
+[submodule "pkgs-stage-1/bootc-git"]
+	path = pkgs-stage-1/bootc-git
+	url = https://aur.archlinux.org/bootc-git.git
