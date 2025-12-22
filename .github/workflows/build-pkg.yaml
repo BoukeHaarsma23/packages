@@ -52,7 +52,7 @@ jobs:
           git submodule update --init -- ${{ inputs.package }}
       - name: Cache package
         id: cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           key: ${{ inputs.package }}${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}${{ steps.pre.outputs.date }}
           path: /home/build/${{ inputs.package }}
