@@ -109,7 +109,7 @@ jobs:
         run: |
           find /home/build/${{ inputs.package }}/*.pkg.* -type f -name '*:*' -execdir bash -c 'mv "$1" "${1//:/--}"' bash {} \;
       - name: Upload package artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: packages-${{ hashFiles(format('{0}/PKGBUILD', inputs.package)) }}
           path: |
